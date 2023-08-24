@@ -28,7 +28,11 @@ func DISNEYFilter(disneyList []Element, proxies proxy.ProxyList) (resultProxies 
 			var element = disneyList[idx]
 			if element.Name == v.BaseInfo().Name {
 				if strings.Contains(v.BaseInfo().Name, "netflix_") {
-					v.SetName("disney_" + v.BaseInfo().Name)
+					if strings.Contains(v.BaseInfo().Name, "disney_") {
+						v.SetName(v.BaseInfo().Name)
+					} else {
+						v.SetName("disney_" + v.BaseInfo().Name)
+					}
 				} else {
 					v.SetName("disney_" + element.Country)
 				}
