@@ -5,6 +5,7 @@ import (
 	"errors"
 	"github.com/asdlokj1qpi23/proxypool/pkg/geoIp"
 	"regexp"
+	"strconv"
 	"strings"
 	"unicode/utf8"
 )
@@ -107,7 +108,18 @@ func ParseProxyFromLink(link string) (p Proxy, err error) {
 	//}
 	return
 }
-
+func isNumber(value interface{}) bool {
+	switch value.(type) {
+	case int, int8, int16, int32, int64:
+		return true
+	case uint, uint8, uint16, uint32, uint64:
+		return true
+	case float32, float64:
+		return true
+	default:
+		return false
+	}
+}
 func ParseProxyFromClashProxy(p map[string]interface{}) (proxy Proxy, err error) {
 	if p["name"] != nil {
 		name, ok := p["name"].(string)
@@ -122,6 +134,19 @@ func ParseProxyFromClashProxy(p map[string]interface{}) (proxy Proxy, err error)
 		}
 	} else {
 		p["name"] = ""
+	}
+
+	if p["password"] != nil {
+		password, ok := p["password"].(string)
+		if ok {
+			if _, err := strconv.ParseFloat(password, 64); err == nil {
+				return nil, errors.New("password is number")
+			}
+		} else {
+			if isNumber(p["password"]) {
+				return nil, errors.New("password is number")
+			}
+		}
 	}
 	for key, value := range p {
 		str, ok := value.(string)
