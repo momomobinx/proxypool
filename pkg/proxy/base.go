@@ -86,34 +86,13 @@ type Proxy interface {
 
 func ParseProxyFromLink(link string) (p Proxy, err error) {
 	if strings.HasPrefix(link, "ssr://") {
-		ssr, nr := ParseSSRLink(link)
-		err = nr
-		p = ssr
-		if !validPassword(&ssr.Password) {
-			return nil, errors.New("Password Error")
-		}
-		if !validParams(&ssr.ProtocolParam) {
-			return nil, errors.New("Password Error")
-		}
-		if !validParams(&ssr.ObfsParam) {
-			return nil, errors.New("Password Error")
-		}
+		p, err = ParseSSRLink(link)
 	} else if strings.HasPrefix(link, "vmess://") {
 		p, err = ParseVmessLink(link)
 	} else if strings.HasPrefix(link, "ss://") {
-		ss, sse := ParseSSLink(link)
-		err = sse
-		p = ss
-		if !validPassword(&ss.Password) {
-			return nil, errors.New("Password Error")
-		}
+		p, err = ParseSSLink(link)
 	} else if strings.HasPrefix(link, "trojan://") {
-		tj, tje := ParseTrojanLink(link)
-		err = tje
-		p = tj
-		if !validPassword(&tj.Password) {
-			return nil, errors.New("Password Error")
-		}
+		p, err = ParseTrojanLink(link)
 	}
 	if err != nil || p == nil {
 		return nil, errors.New("link parse failed")
@@ -206,7 +185,7 @@ func ParseProxyFromClashProxy(p map[string]interface{}) (proxy Proxy, err error)
 		if err != nil {
 			return nil, err
 		}
-		if !validPassword(&proxy.Password) {
+		if !ValidPassword(&proxy.Password) {
 			return nil, errors.New("Password Error")
 		}
 		return &proxy, nil
@@ -216,13 +195,13 @@ func ParseProxyFromClashProxy(p map[string]interface{}) (proxy Proxy, err error)
 		if err != nil {
 			return nil, err
 		}
-		if !validPassword(&proxy.Password) {
+		if !ValidPassword(&proxy.Password) {
 			return nil, errors.New("Password Error")
 		}
-		if !validParams(&proxy.ProtocolParam) {
+		if !ValidParams(&proxy.ProtocolParam) {
 			return nil, errors.New("Password Error")
 		}
-		if !validParams(&proxy.ObfsParam) {
+		if !ValidParams(&proxy.ObfsParam) {
 			return nil, errors.New("Password Error")
 		}
 		return &proxy, nil
@@ -239,7 +218,7 @@ func ParseProxyFromClashProxy(p map[string]interface{}) (proxy Proxy, err error)
 		if err != nil {
 			return nil, err
 		}
-		if !validPassword(&proxy.Password) {
+		if !ValidPassword(&proxy.Password) {
 			return nil, errors.New("Password Error")
 		}
 		return &proxy, nil
@@ -247,7 +226,7 @@ func ParseProxyFromClashProxy(p map[string]interface{}) (proxy Proxy, err error)
 	return nil, errors.New("clash json parse failed")
 }
 
-func validPassword(pass interface{}) (flag bool) {
+func ValidPassword(pass interface{}) (flag bool) {
 	password, ok := pass.(string)
 	if ok {
 		if _, err := strconv.ParseFloat(password, 64); err == nil {
@@ -259,7 +238,7 @@ func validPassword(pass interface{}) (flag bool) {
 	return true
 }
 
-func validParams(param interface{}) (flag bool) {
+func ValidParams(param interface{}) (flag bool) {
 	str, ok := param.(string)
 	if ok {
 		if strings.Contains(str, "%") {
