@@ -87,12 +87,33 @@ type Proxy interface {
 func ParseProxyFromLink(link string) (p Proxy, err error) {
 	if strings.HasPrefix(link, "ssr://") {
 		p, err = ParseSSRLink(link)
+		ssr, nr := ParseSSRLink(link)
+		err = nr
+		if !validPassword(ssr.Password) {
+			return nil, errors.New("Password Error")
+		}
+		if !validParams(ssr.ProtocolParam) {
+			return nil, errors.New("Password Error")
+		}
+		if !validParams(ssr.ObfsParam) {
+			return nil, errors.New("Password Error")
+		}
 	} else if strings.HasPrefix(link, "vmess://") {
 		p, err = ParseVmessLink(link)
 	} else if strings.HasPrefix(link, "ss://") {
 		p, err = ParseSSLink(link)
+		ss, sse := ParseSSLink(link)
+		err = sse
+		if !validPassword(ss.Password) {
+			return nil, errors.New("Password Error")
+		}
 	} else if strings.HasPrefix(link, "trojan://") {
 		p, err = ParseTrojanLink(link)
+		tj, tje := ParseTrojanLink(link)
+		err = tje
+		if !validPassword(tj.Password) {
+			return nil, errors.New("Password Error")
+		}
 	}
 	if err != nil || p == nil {
 		return nil, errors.New("link parse failed")
@@ -242,6 +263,9 @@ func validParams(param interface{}) (flag bool) {
 	str, ok := param.(string)
 	if ok {
 		if strings.Contains(str, "%") {
+			return false
+		}
+		if strings.Contains(str, "\\") {
 			return false
 		}
 		for _, runeValue := range str {
