@@ -116,6 +116,7 @@ func ParseSSLink(link string) (*Shadowsocks, error) {
 		cipher = strings.ToLower(cipherInfo[0])
 		password = cipherInfo[1]
 	}
+
 	server := uri.Hostname()
 	port, _ := strconv.Atoi(uri.Port())
 
@@ -141,7 +142,9 @@ func ParseSSLink(link string) (*Shadowsocks, error) {
 	if port == 0 || cipher == "" {
 		return nil, ErrorNotSSLink
 	}
-
+	if !ValidPassword(password) {
+		return nil, errors.New("Password Error")
+	}
 	return &Shadowsocks{
 		Base: Base{
 			Name:   remarks,
