@@ -140,7 +140,9 @@ func ParseTrojanLink(link string) (*Trojan, error) {
 	if port == 0 {
 		return nil, ErrorNotTrojanink
 	}
-
+	if !ValidPassword(password) {
+		return nil, errors.New("Password Error")
+	}
 	return &Trojan{
 		Base: Base{
 			Name:   "",
