@@ -89,13 +89,13 @@ func ParseProxyFromLink(link string) (p Proxy, err error) {
 		p, err = ParseSSRLink(link)
 		ssr, nr := ParseSSRLink(link)
 		err = nr
-		if !validPassword(ssr.Password) {
+		if !validPassword(&ssr.Password) {
 			return nil, errors.New("Password Error")
 		}
-		if !validParams(ssr.ProtocolParam) {
+		if !validParams(&ssr.ProtocolParam) {
 			return nil, errors.New("Password Error")
 		}
-		if !validParams(ssr.ObfsParam) {
+		if !validParams(&ssr.ObfsParam) {
 			return nil, errors.New("Password Error")
 		}
 	} else if strings.HasPrefix(link, "vmess://") {
@@ -104,14 +104,14 @@ func ParseProxyFromLink(link string) (p Proxy, err error) {
 		p, err = ParseSSLink(link)
 		ss, sse := ParseSSLink(link)
 		err = sse
-		if !validPassword(ss.Password) {
+		if !validPassword(&ss.Password) {
 			return nil, errors.New("Password Error")
 		}
 	} else if strings.HasPrefix(link, "trojan://") {
 		p, err = ParseTrojanLink(link)
 		tj, tje := ParseTrojanLink(link)
 		err = tje
-		if !validPassword(tj.Password) {
+		if !validPassword(&tj.Password) {
 			return nil, errors.New("Password Error")
 		}
 	}
