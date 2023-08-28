@@ -86,9 +86,9 @@ type Proxy interface {
 
 func ParseProxyFromLink(link string) (p Proxy, err error) {
 	if strings.HasPrefix(link, "ssr://") {
-		p, err = ParseSSRLink(link)
 		ssr, nr := ParseSSRLink(link)
 		err = nr
+		p = ssr
 		if !validPassword(&ssr.Password) {
 			return nil, errors.New("Password Error")
 		}
@@ -101,16 +101,16 @@ func ParseProxyFromLink(link string) (p Proxy, err error) {
 	} else if strings.HasPrefix(link, "vmess://") {
 		p, err = ParseVmessLink(link)
 	} else if strings.HasPrefix(link, "ss://") {
-		p, err = ParseSSLink(link)
 		ss, sse := ParseSSLink(link)
 		err = sse
+		p = ss
 		if !validPassword(&ss.Password) {
 			return nil, errors.New("Password Error")
 		}
 	} else if strings.HasPrefix(link, "trojan://") {
-		p, err = ParseTrojanLink(link)
 		tj, tje := ParseTrojanLink(link)
 		err = tje
+		p = tj
 		if !validPassword(&tj.Password) {
 			return nil, errors.New("Password Error")
 		}
