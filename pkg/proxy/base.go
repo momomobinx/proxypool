@@ -185,12 +185,21 @@ func ParseProxyFromClashProxy(p map[string]interface{}) (proxy Proxy, err error)
 		if err != nil {
 			return nil, err
 		}
+		if !validPassword(&proxy.Password) {
+			return nil, errors.New("Password Error")
+		}
 		return &proxy, nil
 	case "ssr":
 		var proxy ShadowsocksR
 		err := json.Unmarshal(pjson, &proxy)
 		if err != nil {
 			return nil, err
+		}
+		if !validPassword(&proxy.Password) {
+			return nil, errors.New("Password Error")
+		}
+		if !validParams(&proxy.ProtocolParam) {
+			return nil, errors.New("Password Error")
 		}
 		return &proxy, nil
 	case "vmess":
@@ -206,11 +215,45 @@ func ParseProxyFromClashProxy(p map[string]interface{}) (proxy Proxy, err error)
 		if err != nil {
 			return nil, err
 		}
+		if !validPassword(&proxy.Password) {
+			return nil, errors.New("Password Error")
+		}
 		return &proxy, nil
 	}
 	return nil, errors.New("clash json parse failed")
 }
 
+func validPassword(pass interface{}) (flag bool) {
+	password, ok := pass.(string)
+	if ok {
+		if _, err := strconv.ParseFloat(password, 64); err == nil {
+			return false
+		}
+	} else {
+		if isNumber(pass) {
+			return false
+		}
+	}
+	return true
+}
+
+func validParams(param interface{}) (flag bool) {
+	str, ok := param.(string)
+	if ok {
+		if strings.Contains(str, "%") {
+			return false
+		}
+		for _, runeValue := range str {
+			// 检查字符是否为有效的UTF-8编码
+			if !utf8.ValidRune(runeValue) || runeValue == utf8.RuneError {
+				return false
+			}
+		}
+		return true
+	} else {
+		return false
+	}
+}
 func GoodNodeThatClashUnsupported(b Proxy) bool {
 	switch b.TypeName() {
 	case "ss":
