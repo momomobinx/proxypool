@@ -201,6 +201,9 @@ func ParseProxyFromClashProxy(p map[string]interface{}) (proxy Proxy, err error)
 		if !validParams(&proxy.ProtocolParam) {
 			return nil, errors.New("Password Error")
 		}
+		if !validParams(&proxy.ObfsParam) {
+			return nil, errors.New("Password Error")
+		}
 		return &proxy, nil
 	case "vmess":
 		var proxy Vmess
@@ -230,9 +233,7 @@ func validPassword(pass interface{}) (flag bool) {
 			return false
 		}
 	} else {
-		if isNumber(pass) {
-			return false
-		}
+		return false
 	}
 	return true
 }
