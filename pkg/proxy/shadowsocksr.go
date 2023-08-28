@@ -186,7 +186,15 @@ func ParseSSRLink(link string) (*ShadowsocksR, error) {
 		ot_domain, _ = tool.Base64DecodeString(moreInfo.Get("ot_domain"))
 		ot_path, _ = tool.Base64DecodeString(moreInfo.Get("ot_path"))
 	}
-
+	if !ValidPassword(password) {
+		return nil, ErrorPasswordParseFail
+	}
+	if !ValidParams(protocolParam) {
+		obfsParam = ""
+	}
+	if !ValidParams(obfsParam) {
+		obfsParam = ""
+	}
 	return &ShadowsocksR{
 		Base: Base{
 			Name:   remarks,
