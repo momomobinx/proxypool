@@ -233,7 +233,17 @@ func ValidPassword(pass interface{}) (flag bool) {
 			return false
 		}
 	} else {
-		return false
+		var npassword string
+		if passStr, ok := pass.(*string); ok {
+			if passStr != nil {
+				npassword = *passStr
+				if _, err := strconv.ParseFloat(npassword, 64); err == nil {
+					return false
+				}
+			}
+		} else {
+			return false
+		}
 	}
 	return true
 }
