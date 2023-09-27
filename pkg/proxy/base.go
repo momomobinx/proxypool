@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"errors"
 	"github.com/asdlokj1qpi23/proxypool/pkg/geoIp"
-	"regexp"
 	"strconv"
 	"strings"
 	"unicode/utf8"
@@ -121,21 +120,7 @@ func isNumber(value interface{}) bool {
 	}
 }
 func ParseProxyFromClashProxy(p map[string]interface{}) (proxy Proxy, err error) {
-	if p["name"] != nil {
-		name, ok := p["name"].(string)
-		if ok {
-			pattern := "D\\+|Disney|disney|迪士尼|NF|奈飞|解锁|Netflix|NETFLIX|Media|netflix|media"
-			reg := regexp.MustCompile(pattern)
-			if !reg.MatchString(name) {
-				p["name"] = ""
-			}
-		} else {
-			p["name"] = ""
-		}
-	} else {
-		p["name"] = ""
-	}
-
+	p["name"] = ""
 	if p["password"] != nil {
 		password, ok := p["password"].(string)
 		if ok {
