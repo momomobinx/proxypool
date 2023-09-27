@@ -71,11 +71,7 @@ func (ps ProxyList) Sort() ProxyList {
 func (ps ProxyList) NameClear() ProxyList {
 	num := len(ps)
 	for i := 0; i < num; i++ {
-		pattern := "D\\+|Disney|disney|迪士尼|NF|奈飞|解锁|Netflix|NETFLIX|Media|netflix|media"
-		reg := regexp.MustCompile(pattern)
-		if !reg.MatchString(ps[i].BaseInfo().Name) {
-			ps[i].SetName("")
-		}
+		ps[i].SetName("")
 	}
 	return ps
 }
