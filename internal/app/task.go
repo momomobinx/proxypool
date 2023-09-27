@@ -3,7 +3,6 @@ package app
 import (
 	"fmt"
 	"github.com/asdlokj1qpi23/proxypool/pkg/healthcheck/stream"
-	"regexp"
 	"sync"
 	"time"
 
@@ -98,19 +97,15 @@ func CrawlGo() {
 
 	// Relay check and rename
 	healthcheck.RelayCheck(proxies)
-	pattern := "D\\+|Disney|disney|迪士尼|NF|奈飞|解锁|Netflix|NETFLIX|Media|netflix|media"
-	reg := regexp.MustCompile(pattern)
 	for i := range proxies {
-		if !reg.MatchString(proxies[i].BaseInfo().Name) {
-			if s, ok := healthcheck.ProxyStats.Find(proxies[i]); ok {
-				if s.Relay {
-					_, c, e := geoIp.GeoIpDB.Find(s.OutIp)
-					if e == nil {
-						proxies[i].SetName(fmt.Sprintf("Relay_%s-%s", proxies[i].BaseInfo().Name, c))
-					}
-				} else if s.Pool {
-					proxies[i].SetName(fmt.Sprintf("Pool_%s", proxies[i].BaseInfo().Name))
+		if s, ok := healthcheck.ProxyStats.Find(proxies[i]); ok {
+			if s.Relay {
+				_, c, e := geoIp.GeoIpDB.Find(s.OutIp)
+				if e == nil {
+					proxies[i].SetName(fmt.Sprintf("Relay_%s-%s", proxies[i].BaseInfo().Name, c))
 				}
+			} else if s.Pool {
+				proxies[i].SetName(fmt.Sprintf("Pool_%s", proxies[i].BaseInfo().Name))
 			}
 		}
 	}
