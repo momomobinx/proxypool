@@ -102,5 +102,4 @@ func TestSSRClashYaml(t *testing.T) {
 	}
 	fmt.Println(ssrp)
 	fmt.Println(ssrp.ToClash())
-
 }

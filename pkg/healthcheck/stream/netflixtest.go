@@ -2,7 +2,7 @@ package stream
 
 import (
 	"context"
-	C "github.com/Dreamacro/clash/constant"
+	C "github.com/metacubex/mihomo/constant"
 	"io"
 	"net"
 	"net/http"

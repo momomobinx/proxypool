@@ -20,13 +20,25 @@ var (
 
 type Trojan struct {
 	Base
-	Password       string   `yaml:"password" json:"password"`
-	ALPN           []string `yaml:"alpn,omitempty" json:"alpn,omitempty"`
-	SNI            string   `yaml:"sni,omitempty" json:"sni,omitempty"`
-	SkipCertVerify bool     `yaml:"skip-cert-verify,omitempty" json:"skip-cert-verify,omitempty"`
-	UDP            bool     `yaml:"udp,omitempty" json:"udp,omitempty"`
+	Password       string           `yaml:"password" json:"password"`
+	ALPN           []string         `yaml:"alpn,omitempty" json:"alpn,omitempty"`
+	SNI            string           `yaml:"sni,omitempty" json:"sni,omitempty"`
+	SkipCertVerify bool             `yaml:"skip-cert-verify,omitempty" json:"skip-cert-verify,omitempty"`
+	UDP            bool             `yaml:"udp,omitempty" json:"udp,omitempty"`
+	WSOpts         *TrojanWSOptions `yaml:"ws-opts,omitempty" json:"ws-opts,omitempty"`
+	FingerPrint    string           `yaml:"fingerprint,omitempty" json:"fingerprint,omitempty"`
 	// Network        string      `yaml:"network,omitempty" json:"network,omitempty"`
-	// GrpcOpts       GrpcOptions `yaml:"grpc-opts,omitempty" json:"grpc-opts,omitempty"`
+	GrpcOpts GrpcOptions `yaml:"grpc-opts,omitempty" json:"grpc-opts,omitempty"`
+	Flow     string      `yaml:"flow,omitempty" json:"flow,omitempty"`
+	FlowShow bool        `yaml:"flow-show,omitempty" json:"flow-show,omitempty"`
+}
+type TrojanWSOptions struct {
+	Path             string            `yaml:"path,omitempty" json:"path,omitempty"`
+	Headers          map[string]string `yaml:"headers,omitempty" json:"headers,omitempty"`
+	V2rayHttpUpgrade bool              `yaml:"v2ray-http-upgrade,omitempty" json:"v2ray-http-upgrade,omitempty"`
+}
+type GrpcOptions struct {
+	GrpcServiceName string `yaml:"grpc-service-name,omitempty" json:"grpc-service-name,omitempty"`
 }
 
 /**
@@ -127,11 +139,16 @@ func ParseTrojanLink(link string) (*Trojan, error) {
 	sni, _ = url.QueryUnescape(sni)
 	transformType := moreInfos.Get("type")
 	transformType, _ = url.QueryUnescape(transformType)
-	// host := moreInfos.Get("host")
-	// host, _ = url.QueryUnescape(host)
-	// path := moreInfos.Get("path")
-	// path, _ = url.QueryUnescape(path)
-
+	host := moreInfos.Get("host")
+	host, hostErr := url.QueryUnescape(host)
+	path := moreInfos.Get("path")
+	path, patherr := url.QueryUnescape(path)
+	serviceName := moreInfos.Get("path")
+	serviceName, serviceNameerr := url.QueryUnescape(serviceName)
+	flow := moreInfos.Get("flow")
+	flow, flowerr := url.QueryUnescape(flow)
+	flowShow := moreInfos.Get("flow")
+	flowShow, flowshowerr := url.QueryUnescape(flowShow)
 	alpn := make([]string, 0)
 	if transformType == "h2" {
 		alpn = append(alpn, "h2")
@@ -140,10 +157,10 @@ func ParseTrojanLink(link string) (*Trojan, error) {
 	if port == 0 {
 		return nil, ErrorNotTrojanink
 	}
-	if !ValidPassword(password) {
-		return nil, errors.New("Password Error")
-	}
-	return &Trojan{
+	//if !ValidPassword(password) {
+	//	return nil, errors.New("Password Error")
+	//}
+	t := &Trojan{
 		Base: Base{
 			Name:   "",
 			Server: server,
@@ -155,7 +172,36 @@ func ParseTrojanLink(link string) (*Trojan, error) {
 		SNI:            sni,
 		UDP:            true,
 		SkipCertVerify: true,
-	}, nil
+	}
+	if flowerr != nil && flow != "" {
+		t.Flow = flow
+		if flowshowerr != nil && flowShow != "" {
+			t.FlowShow = true
+		}
+	}
+	if serviceNameerr != nil && serviceName != "" {
+		t.GrpcOpts = GrpcOptions{
+			GrpcServiceName: serviceName,
+		}
+	}
+	if patherr != nil && path != "" {
+		if hostErr != nil && host != "" {
+			wsHeaders := make(map[string]string)
+			wsHeaders["Host"] = host
+			t.WSOpts = &TrojanWSOptions{
+				Path:    path,
+				Headers: wsHeaders,
+			}
+		} else {
+			wsHeaders := make(map[string]string)
+			wsHeaders["Host"] = server
+			t.WSOpts = &TrojanWSOptions{
+				Path:    path,
+				Headers: wsHeaders,
+			}
+		}
+	}
+	return t, nil
 }
 
 var (

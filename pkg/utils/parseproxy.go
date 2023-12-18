@@ -3,9 +3,9 @@ package utils
 import (
 	"encoding/json"
 	"errors"
-	"github.com/Dreamacro/clash/adapter"
-	C "github.com/Dreamacro/clash/constant"
 	"github.com/asdlokj1qpi23/proxypool/pkg/proxy"
+	"github.com/metacubex/mihomo/adapter"
+	C "github.com/metacubex/mihomo/constant"
 )
 
 func ParseCustomizeProxy(p proxy.Proxy) (cProxy C.Proxy, err error) {

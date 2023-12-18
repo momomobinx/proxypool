@@ -142,9 +142,9 @@ func ParseSSLink(link string) (*Shadowsocks, error) {
 	if port == 0 || cipher == "" {
 		return nil, ErrorNotSSLink
 	}
-	if !ValidPassword(password) {
-		return nil, errors.New("Password Error")
-	}
+	//if !ValidPassword(password) {
+	//	return nil, errors.New("Password Error")
+	//}
 	return &Shadowsocks{
 		Base: Base{
 			Name:   remarks,

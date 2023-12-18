@@ -170,9 +170,9 @@ func ParseProxyFromClashProxy(p map[string]interface{}) (proxy Proxy, err error)
 		if err != nil {
 			return nil, err
 		}
-		if !ValidPassword(&proxy.Password) {
-			return nil, errors.New("Password Error")
-		}
+		//if !ValidPassword(&proxy.Password) {
+		//	return nil, errors.New("Password Error")
+		//}
 		return &proxy, nil
 	case "ssr":
 		var proxy ShadowsocksR
@@ -180,9 +180,9 @@ func ParseProxyFromClashProxy(p map[string]interface{}) (proxy Proxy, err error)
 		if err != nil {
 			return nil, err
 		}
-		if !ValidPassword(&proxy.Password) {
-			return nil, errors.New("Password Error")
-		}
+		//if !ValidPassword(&proxy.Password) {
+		//	return nil, errors.New("Password Error")
+		//}
 		if !ValidParams(&proxy.ProtocolParam) {
 			return nil, errors.New("Password Error")
 		}
@@ -203,35 +203,35 @@ func ParseProxyFromClashProxy(p map[string]interface{}) (proxy Proxy, err error)
 		if err != nil {
 			return nil, err
 		}
-		if !ValidPassword(&proxy.Password) {
-			return nil, errors.New("Password Error")
-		}
+		//if !ValidPassword(&proxy.Password) {
+		//	return nil, errors.New("Password Error")
+		//}
 		return &proxy, nil
 	}
 	return nil, errors.New("clash json parse failed")
 }
 
-func ValidPassword(pass interface{}) (flag bool) {
-	password, ok := pass.(string)
-	if ok {
-		if _, err := strconv.ParseFloat(password, 64); err == nil {
-			return false
-		}
-	} else {
-		var npassword string
-		if passStr, ok := pass.(*string); ok {
-			if passStr != nil {
-				npassword = *passStr
-				if _, err := strconv.ParseFloat(npassword, 64); err == nil {
-					return false
-				}
-			}
-		} else {
-			return false
-		}
-	}
-	return true
-}
+//func ValidPassword(pass interface{}) (flag bool) {
+//	password, ok := pass.(string)
+//	if ok {
+//		if _, err := strconv.ParseFloat(password, 64); err == nil {
+//			return false
+//		}
+//	} else {
+//		var npassword string
+//		if passStr, ok := pass.(*string); ok {
+//			if passStr != nil {
+//				npassword = *passStr
+//				if _, err := strconv.ParseFloat(npassword, 64); err == nil {
+//					return false
+//				}
+//			}
+//		} else {
+//			return false
+//		}
+//	}
+//	return true
+//}
 
 func ValidParams(param interface{}) (flag bool) {
 	str, ok := param.(string)

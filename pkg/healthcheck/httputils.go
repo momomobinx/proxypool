@@ -3,11 +3,12 @@ package healthcheck
 import (
 	"context"
 	"fmt"
-	C "github.com/Dreamacro/clash/constant"
 	"github.com/asdlokj1qpi23/proxypool/pkg/proxy"
+	C "github.com/metacubex/mihomo/constant"
 	"io"
 	"net"
 	"net/http"
+	"net/netip"
 	"net/url"
 	"strconv"
 	"time"
@@ -32,22 +33,16 @@ func urlToMetadata(rawURL string) (addr C.Metadata, err error) {
 			return
 		}
 	}
+	uintPort, err := strconv.ParseUint(port, 10, 16)
+	if err != nil {
+		return
+	}
 
 	addr = C.Metadata{
 		Host:    u.Hostname(),
-		DstIP:   nil,
-		DstPort: C.Port(convertPort(port)),
+		DstIP:   netip.Addr{},
+		DstPort: uint16(uintPort),
 	}
-	return
-}
-
-func convertPort(port string) (uint16num uint16) {
-	num, err := strconv.ParseUint(port, 10, 16)
-	if err != nil {
-		fmt.Println("转换失败：", err)
-		return
-	}
-	uint16num = uint16(num)
 	return
 }
 

@@ -2,8 +2,8 @@ package stream
 
 import (
 	"fmt"
-	C "github.com/Dreamacro/clash/constant"
 	"github.com/ivpusic/grpool"
+	C "github.com/metacubex/mihomo/constant"
 	"sync"
 )
 

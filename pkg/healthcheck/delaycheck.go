@@ -19,7 +19,7 @@ import (
 
 	"github.com/ivpusic/grpool"
 
-	"github.com/Dreamacro/clash/adapter"
+	"github.com/metacubex/mihomo/adapter"
 )
 
 func CleanBadProxiesWithGrpool(proxies []proxy.Proxy) (cproxies []proxy.Proxy) {
