@@ -37,7 +37,7 @@ func TestSSRLink(t *testing.T) {
 }
 
 func TestTrojanLink(t *testing.T) {
-	trojan, err := ParseTrojanLink("trojan://AAA@example.com:33714?type=ws&security=tls&path=%2Fkjzhcuifg%2F&sni=example.com")
+	trojan, err := ParseTrojanLink("trojan://AAA@example.com:33714?type=grpc&security=tls&serviceName=%2Fkjzhcuifg%2F&sni=example.com")
 	if err != nil {
 		t.Error(err)
 	}

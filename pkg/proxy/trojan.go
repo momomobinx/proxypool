@@ -28,9 +28,9 @@ type Trojan struct {
 	WSOpts         *TrojanWSOptions `yaml:"ws-opts,omitempty" json:"ws-opts,omitempty"`
 	FingerPrint    string           `yaml:"fingerprint,omitempty" json:"fingerprint,omitempty"`
 	// Network        string      `yaml:"network,omitempty" json:"network,omitempty"`
-	GrpcOpts GrpcOptions `yaml:"grpc-opts,omitempty" json:"grpc-opts,omitempty"`
-	Flow     string      `yaml:"flow,omitempty" json:"flow,omitempty"`
-	FlowShow bool        `yaml:"flow-show,omitempty" json:"flow-show,omitempty"`
+	GrpcOpts *GrpcOptions `yaml:"grpc-opts,omitempty" json:"grpc-opts,omitempty"`
+	Flow     string       `yaml:"flow,omitempty" json:"flow,omitempty"`
+	FlowShow bool         `yaml:"flow-show,omitempty" json:"flow-show,omitempty"`
 }
 type TrojanWSOptions struct {
 	Path             string            `yaml:"path,omitempty" json:"path,omitempty"`
@@ -90,12 +90,12 @@ func (t Trojan) Link() (link string) {
 		query.Set("sni", url.QueryEscape(t.SNI))
 	}
 
-	if t.WSOpts.Path != "" {
+	if t.WSOpts != nil && t.WSOpts.Path != "" {
 		query.Set("path", url.QueryEscape(t.WSOpts.Path))
 	}
 
-	if t.GrpcOpts.GrpcServiceName != "" {
-		query.Set("serviceName", url.QueryEscape(t.WSOpts.Path))
+	if t.GrpcOpts != nil && t.GrpcOpts.GrpcServiceName != "" {
+		query.Set("serviceName", url.QueryEscape(t.GrpcOpts.GrpcServiceName))
 	}
 
 	if !t.SkipCertVerify {
@@ -198,7 +198,7 @@ func ParseTrojanLink(link string) (*Trojan, error) {
 		}
 	}
 	if serviceNameerr == nil && serviceName != "" {
-		t.GrpcOpts = GrpcOptions{
+		t.GrpcOpts = &GrpcOptions{
 			GrpcServiceName: serviceName,
 		}
 	}
