@@ -2,10 +2,9 @@ package proxy
 
 import (
 	"fmt"
-	"testing"
-
 	"github.com/asdlokj1qpi23/proxypool/pkg/tool"
 	"github.com/ghodss/yaml"
+	"testing"
 )
 
 func TestSSLink(t *testing.T) {
@@ -38,7 +37,7 @@ func TestSSRLink(t *testing.T) {
 }
 
 func TestTrojanLink(t *testing.T) {
-	trojan, err := ParseTrojanLink("trojan://65474277@sqcu.hostmsu.ru:55551?allowinsecure=0&peer=mza.hkfq.xyz&mux=1&ws=0&wspath=&wshost=&ss=0&ssmethod=aes-128-gcm&sspasswd=&group=#%E9%A6%99%E6%B8%AFCN2-MZA%E8%8A%82%E7%82%B9-%E5%AE%BF%E8%BF%81%E8%81%94%E9%80%9A%E4%B8%AD%E8%BD%AC")
+	trojan, err := ParseTrojanLink("trojan://AAA@example.com:33714?type=ws&security=tls&path=%2Fkjzhcuifg%2F&sni=example.com")
 	if err != nil {
 		t.Error(err)
 	}
@@ -102,4 +101,18 @@ func TestSSRClashYaml(t *testing.T) {
 	}
 	fmt.Println(ssrp)
 	fmt.Println(ssrp.ToClash())
+}
+
+func TestHysteria2Link(t *testing.T) {
+	hysteria2, err := ParseHysteria2Link("hysteria2://letmein@example.com/?insecure=1&obfs=salamander&obfs-password=gawrgura&pinSHA256=deadbeef&sni=real.example.com")
+	if err != nil {
+		t.Error(err)
+	}
+	fmt.Println(hysteria2)
+	fmt.Println(hysteria2.Link())
+	hysteria2, err = ParseHysteria2Link(hysteria2.Link())
+	if err != nil {
+		t.Error(err)
+	}
+	fmt.Println(hysteria2)
 }

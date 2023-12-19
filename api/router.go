@@ -22,7 +22,7 @@ import (
 	_ "github.com/heroku/x/hmetrics/onload"
 )
 
-const version = "v0.7.17"
+const version = "v0.7.19"
 
 var router *gin.Engine
 
@@ -42,21 +42,22 @@ func setupRouter() {
 
 	router.GET("/", func(c *gin.Context) {
 		c.HTML(http.StatusOK, "assets/html/index.html", gin.H{
-			"domain":               config.Config.Domain,
-			"getters_count":        appcache.GettersCount,
-			"all_proxies_count":    appcache.AllProxiesCount,
-			"ss_proxies_count":     appcache.SSProxiesCount,
-			"ssr_proxies_count":    appcache.SSRProxiesCount,
-			"vmess_proxies_count":  appcache.VmessProxiesCount,
-			"trojan_proxies_count": appcache.TrojanProxiesCount,
-			"useful_proxies_count": appcache.UsefullProxiesCount,
-			"last_crawl_time":      appcache.LastCrawlTime,
-			"is_speed_test":        appcache.IsSpeedTest,
-			"is_netflix_test":      appcache.IsNetflixTest,
-			"is_disney_test":       appcache.IsDisneyTest,
-			"netflix_count":        appcache.NetflixCount,
-			"disney_count":         appcache.DisneyCount,
-			"version":              version,
+			"domain":                  config.Config.Domain,
+			"getters_count":           appcache.GettersCount,
+			"all_proxies_count":       appcache.AllProxiesCount,
+			"ss_proxies_count":        appcache.SSProxiesCount,
+			"hysteria2_proxies_count": appcache.Hysteria2ProxiesCount,
+			"ssr_proxies_count":       appcache.SSRProxiesCount,
+			"vmess_proxies_count":     appcache.VmessProxiesCount,
+			"trojan_proxies_count":    appcache.TrojanProxiesCount,
+			"useful_proxies_count":    appcache.UsefullProxiesCount,
+			"last_crawl_time":         appcache.LastCrawlTime,
+			"is_speed_test":           appcache.IsSpeedTest,
+			"is_netflix_test":         appcache.IsNetflixTest,
+			"is_disney_test":          appcache.IsDisneyTest,
+			"netflix_count":           appcache.NetflixCount,
+			"disney_count":            appcache.DisneyCount,
+			"version":                 version,
 		})
 	})
 

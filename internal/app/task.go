@@ -75,7 +75,8 @@ func CrawlGo() {
 	cache.TrojanProxiesCount = proxies.TypeLen("trojan")
 	log.Infoln("TrojanProxiesCount: %d", cache.TrojanProxiesCount)
 	cache.LastCrawlTime = time.Now().In(location).Format("2006-01-02 15:04:05")
-
+	cache.Hysteria2ProxiesCount = proxies.TypeLen("hysteria2")
+	log.Infoln("Hysteria2ProxiesCount: %d", cache.Hysteria2ProxiesCount)
 	// Health Check
 	log.Infoln("Now proceed proxy health check...")
 	healthcheck.SpeedConn = C.Config.SpeedConnection

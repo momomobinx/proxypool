@@ -90,6 +90,18 @@ func (t Trojan) Link() (link string) {
 		query.Set("sni", url.QueryEscape(t.SNI))
 	}
 
+	if t.WSOpts.Path != "" {
+		query.Set("path", url.QueryEscape(t.WSOpts.Path))
+	}
+
+	if t.GrpcOpts.GrpcServiceName != "" {
+		query.Set("serviceName", url.QueryEscape(t.WSOpts.Path))
+	}
+
+	if !t.SkipCertVerify {
+		query.Set("security", url.QueryEscape("tls"))
+	}
+
 	uri := url.URL{
 		Scheme:   "trojan",
 		User:     url.User(url.QueryEscape(t.Password)),
@@ -143,19 +155,21 @@ func ParseTrojanLink(link string) (*Trojan, error) {
 	host, hostErr := url.QueryUnescape(host)
 	path := moreInfos.Get("path")
 	path, patherr := url.QueryUnescape(path)
-	serviceName := moreInfos.Get("path")
+	serviceName := moreInfos.Get("serviceName")
 	serviceName, serviceNameerr := url.QueryUnescape(serviceName)
 	flow := moreInfos.Get("flow")
 	flow, flowerr := url.QueryUnescape(flow)
 	flowShow := moreInfos.Get("flow")
 	flowShow, flowshowerr := url.QueryUnescape(flowShow)
+	security := moreInfos.Get("security")
+	security, securityerr := url.QueryUnescape(security)
 	alpn := make([]string, 0)
 	if transformType == "h2" {
 		alpn = append(alpn, "h2")
 	}
 
 	if port == 0 {
-		return nil, ErrorNotTrojanink
+		port = 443
 	}
 	//if !ValidPassword(password) {
 	//	return nil, errors.New("Password Error")
@@ -167,25 +181,29 @@ func ParseTrojanLink(link string) (*Trojan, error) {
 			Port:   port,
 			Type:   "trojan",
 		},
-		Password:       password,
-		ALPN:           alpn,
-		SNI:            sni,
-		UDP:            true,
-		SkipCertVerify: true,
+		Password: password,
+		ALPN:     alpn,
+		SNI:      sni,
+		UDP:      true,
 	}
-	if flowerr != nil && flow != "" {
+	if securityerr == nil && security == "tls" {
+		t.SkipCertVerify = false
+	} else {
+		t.SkipCertVerify = true
+	}
+	if flowerr == nil && flow != "" {
 		t.Flow = flow
 		if flowshowerr != nil && flowShow != "" {
 			t.FlowShow = true
 		}
 	}
-	if serviceNameerr != nil && serviceName != "" {
+	if serviceNameerr == nil && serviceName != "" {
 		t.GrpcOpts = GrpcOptions{
 			GrpcServiceName: serviceName,
 		}
 	}
-	if patherr != nil && path != "" {
-		if hostErr != nil && host != "" {
+	if patherr == nil && path != "" {
+		if hostErr == nil && host != "" {
 			wsHeaders := make(map[string]string)
 			wsHeaders["Host"] = host
 			t.WSOpts = &TrojanWSOptions{
