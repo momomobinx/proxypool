@@ -18,7 +18,7 @@
 
 ## 支持
 
-- 支持ss、ssr、vmess、trojan多种类型
+- 支持ss、ssr、vmess、trojan、hysteria2多种类型
 - Telegram频道抓取
 - 订阅地址抓取解析
 - 公开互联网页面模糊抓取
