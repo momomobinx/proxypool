@@ -116,3 +116,17 @@ func TestHysteria2Link(t *testing.T) {
 	}
 	fmt.Println(hysteria2)
 }
+
+func TestVlessLink(t *testing.T) {
+	vless, err := ParseVlessLink("vless://4843ddbd-8e3b-4199-a2cb-139dfxxc0aae56@example.com:30589?type=grpc&security=reality&serviceName=xcvsdfs&sni=www.speedtest.org&pbk=UtL7E0Gmxj3X5xJdcPAutpTRKo7K2hugkR0vwk2XroUM&fp=chrome")
+	if err != nil {
+		t.Error(err)
+	}
+	fmt.Println(vless)
+	fmt.Println(vless.Link())
+	vless, err = ParseVlessLink(vless.Link())
+	if err != nil {
+		t.Error(err)
+	}
+	fmt.Println(vless)
+}

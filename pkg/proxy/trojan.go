@@ -24,7 +24,6 @@ type Trojan struct {
 	ALPN           []string         `yaml:"alpn,omitempty" json:"alpn,omitempty"`
 	SNI            string           `yaml:"sni,omitempty" json:"sni,omitempty"`
 	SkipCertVerify bool             `yaml:"skip-cert-verify,omitempty" json:"skip-cert-verify,omitempty"`
-	UDP            bool             `yaml:"udp,omitempty" json:"udp,omitempty"`
 	WSOpts         *TrojanWSOptions `yaml:"ws-opts,omitempty" json:"ws-opts,omitempty"`
 	FingerPrint    string           `yaml:"fingerprint,omitempty" json:"fingerprint,omitempty"`
 	// Network        string      `yaml:"network,omitempty" json:"network,omitempty"`
@@ -159,10 +158,14 @@ func ParseTrojanLink(link string) (*Trojan, error) {
 	serviceName, serviceNameerr := url.QueryUnescape(serviceName)
 	flow := moreInfos.Get("flow")
 	flow, flowerr := url.QueryUnescape(flow)
-	flowShow := moreInfos.Get("flow")
+	flowShow := moreInfos.Get("flowshow")
 	flowShow, flowshowerr := url.QueryUnescape(flowShow)
 	security := moreInfos.Get("security")
 	security, securityerr := url.QueryUnescape(security)
+	allowInsecure := moreInfos.Get("allowInsecure")
+	allowInsecure, allowInsecureerr := url.QueryUnescape(allowInsecure)
+	fingerprint := moreInfos.Get("fp")
+	fingerprint, fingerprinterr := url.QueryUnescape(fingerprint)
 	alpn := make([]string, 0)
 	if transformType == "h2" {
 		alpn = append(alpn, "h2")
@@ -180,15 +183,23 @@ func ParseTrojanLink(link string) (*Trojan, error) {
 			Server: server,
 			Port:   port,
 			Type:   "trojan",
+			UDP:    true,
 		},
 		Password: password,
 		ALPN:     alpn,
 		SNI:      sni,
-		UDP:      true,
 	}
 	if securityerr == nil && security == "tls" {
 		t.SkipCertVerify = false
 	} else {
+		t.SkipCertVerify = true
+	}
+
+	if fingerprinterr == nil && fingerprint != "" {
+		t.FingerPrint = fingerprint
+	}
+
+	if allowInsecureerr == nil && allowInsecure == "true" {
 		t.SkipCertVerify = true
 	}
 	if flowerr == nil && flow != "" {

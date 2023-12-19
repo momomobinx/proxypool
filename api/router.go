@@ -22,7 +22,7 @@ import (
 	_ "github.com/heroku/x/hmetrics/onload"
 )
 
-const version = "v0.7.20"
+const version = "v0.7.21"
 
 var router *gin.Engine
 
@@ -47,6 +47,7 @@ func setupRouter() {
 			"all_proxies_count":       appcache.AllProxiesCount,
 			"ss_proxies_count":        appcache.SSProxiesCount,
 			"hysteria2_proxies_count": appcache.Hysteria2ProxiesCount,
+			"vless_proxies_count":     appcache.VlessProxiesCount,
 			"ssr_proxies_count":       appcache.SSRProxiesCount,
 			"vmess_proxies_count":     appcache.VmessProxiesCount,
 			"trojan_proxies_count":    appcache.TrojanProxiesCount,
