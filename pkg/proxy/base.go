@@ -235,6 +235,9 @@ func ParseProxyFromClashProxy(p map[string]interface{}) (proxy Proxy, err error)
 		if err != nil {
 			return nil, err
 		}
+		if proxy.Flow == "xtls-rprx-direct" {
+			return nil, errors.New("legacy XTLS protocol xtls-rprx-direct is deprecated and no longer supported")
+		}
 		//if !ValidPassword(&proxy.Password) {
 		//	return nil, errors.New("Password Error")
 		//}

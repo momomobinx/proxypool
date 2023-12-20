@@ -174,9 +174,12 @@ func ParseVlessLink(link string) (*Vless, error) {
 	}
 	if transformType == "ws" {
 		t.Network = "ws"
-	}
-	if transformType == "grpc" {
+	} else if transformType == "grpc" {
 		t.Network = "grpc"
+	} else if transformType == "tcp" {
+		t.Network = "tcp"
+	} else {
+		return nil, ErrorNotVlessLink
 	}
 	if securityerr == nil {
 		if security == "tls" {
@@ -207,6 +210,9 @@ func ParseVlessLink(link string) (*Vless, error) {
 		t.SkipCertVerify = true
 	}
 	if flowerr == nil && flow != "" {
+		if flow == "xtls-rprx-direct" {
+			return nil, ErrorNotSSLink
+		}
 		t.Flow = flow
 	}
 	if serviceNameerr == nil && serviceName != "" {

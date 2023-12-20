@@ -23,6 +23,14 @@ require (
 	gopkg.in/yaml.v3 v3.0.1
 	gorm.io/driver/postgres v1.5.2
 	gorm.io/gorm v1.25.1
+	github.com/metacubex/gopacket v1.1.20-0.20230608035415-7e2f98a3e759 // indirect
+    github.com/metacubex/gvisor v0.0.0-20231209122014-3e43224c7bbc // indirect
+    github.com/metacubex/quic-go v0.40.1-0.20231130135418-0c1b47cf9394 // indirect
+    github.com/metacubex/sing-quic v0.0.0-20231207122758-cc17b154daa8 // indirect
+    github.com/metacubex/sing-shadowsocks v0.2.6 // indirect
+    github.com/metacubex/sing-shadowsocks2 v0.1.6-beta.1 // indirect
+    github.com/metacubex/sing-vmess v0.1.9-0.20231207122118-72303677451f // indirect
+    github.com/metacubex/sing-wireguard v0.0.0-20231209125515-0594297f7232 // indirect
 )
 
 require (
@@ -89,14 +97,6 @@ require (
 	github.com/mdlayher/netlink v1.7.2 // indirect
 	github.com/mdlayher/socket v0.4.1 // indirect
 	github.com/memcachier/mc/v3 v3.0.3 // indirect
-	github.com/metacubex/gopacket v1.1.20-0.20230608035415-7e2f98a3e759 // indirect
-	github.com/metacubex/gvisor v0.0.0-20231209122014-3e43224c7bbc // indirect
-	github.com/metacubex/quic-go v0.40.1-0.20231130135418-0c1b47cf9394 // indirect
-	github.com/metacubex/sing-quic v0.0.0-20231207122758-cc17b154daa8 // indirect
-	github.com/metacubex/sing-shadowsocks v0.2.6 // indirect
-	github.com/metacubex/sing-shadowsocks2 v0.1.6-beta.1 // indirect
-	github.com/metacubex/sing-vmess v0.1.9-0.20231207122118-72303677451f // indirect
-	github.com/metacubex/sing-wireguard v0.0.0-20231209125515-0594297f7232 // indirect
 	github.com/mgutz/ansi v0.0.0-20200706080929-d51e80ef957d // indirect
 	github.com/miekg/dns v1.1.57 // indirect
 	github.com/modern-go/concurrent v0.0.0-20180306012644-bacd9c7ef1dd // indirect

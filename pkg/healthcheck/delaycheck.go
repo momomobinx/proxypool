@@ -5,6 +5,11 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"github.com/antchfx/htmlquery"
+	"github.com/asdlokj1qpi23/proxypool/log"
+	"github.com/asdlokj1qpi23/proxypool/pkg/proxy"
+	"github.com/ivpusic/grpool"
+	"github.com/metacubex/mihomo/adapter"
 	"io"
 	"net"
 	"net/http"
@@ -12,14 +17,6 @@ import (
 	"strings"
 	"sync"
 	"time"
-
-	"github.com/antchfx/htmlquery"
-	"github.com/asdlokj1qpi23/proxypool/log"
-	"github.com/asdlokj1qpi23/proxypool/pkg/proxy"
-
-	"github.com/ivpusic/grpool"
-
-	"github.com/metacubex/mihomo/adapter"
 )
 
 func CleanBadProxiesWithGrpool(proxies []proxy.Proxy) (cproxies []proxy.Proxy) {
