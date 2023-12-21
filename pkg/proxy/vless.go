@@ -205,7 +205,9 @@ func ParseVlessLink(link string) (*Vless, error) {
 	if fingerprinterr == nil && fingerprint != "" {
 		t.FingerPrint = fingerprint
 	}
-
+	if pbk != "" || flow == "xtls-rprx-vision" {
+		t.ClientFingerprint = "chrome"
+	}
 	if allowInsecureerr == nil && allowInsecure == "true" {
 		t.SkipCertVerify = true
 	}

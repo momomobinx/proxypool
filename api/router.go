@@ -22,7 +22,7 @@ import (
 	_ "github.com/heroku/x/hmetrics/onload"
 )
 
-const version = "v0.7.23"
+const version = "v0.7.24"
 
 var router *gin.Engine
 
