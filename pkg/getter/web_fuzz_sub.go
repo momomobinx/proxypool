@@ -3,6 +3,7 @@ package getter
 import (
 	"io"
 	"regexp"
+	"strings"
 	"sync"
 
 	"github.com/asdlokj1qpi23/proxypool/log"
@@ -33,14 +34,21 @@ func (w *WebFuzzSub) Get() proxy.ProxyList {
 	subUrls := urlRe.FindAllString(text, -1)
 	result := make(proxy.ProxyList, 0)
 	for _, url := range subUrls {
-		newResult := (&Subscribe{Url: url}).Get()
-		if len(newResult) == 0 {
-			newResult = (&Clash{Url: url}).Get()
-			if len(newResult) == 0 {
-				newResult = (&WebFuzz{Url: url}).Get()
+		p, perr := proxy.ParseProxyFromLink(url)
+		if perr != nil || p == nil {
+			if strings.Contains(url, "https://") || strings.Contains(url, "http://") {
+				newResult := (&Subscribe{Url: url}).Get()
+				if len(newResult) == 0 {
+					newResult = (&Clash{Url: url}).Get()
+					if len(newResult) == 0 {
+						newResult = (&WebFuzz{Url: url}).Get()
+					}
+				}
+				result = result.UniqAppendProxyList(newResult)
 			}
+		} else {
+			result = result.UniqAppendProxy(p)
 		}
-		result = result.UniqAppendProxyList(newResult)
 	}
 	return result
 }

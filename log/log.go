@@ -20,7 +20,12 @@ func init() {
 		ForceFormatting: true,
 	})
 	log.SetOutput(os.Stdout)
+
 	log.SetLevel(log.InfoLevel)
+	log.SetFormatter(&prefixed.TextFormatter{
+		TimestampFormat: "2006-01-02 15:04:05",
+		FullTimestamp:   true,
+	})
 	fileLogger.SetFormatter(&prefixed.TextFormatter{
 		FullTimestamp:   true,
 		TimestampFormat: "2006-01-02 15:04:05",
