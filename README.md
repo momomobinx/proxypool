@@ -1,20 +1,6 @@
 # Change Log
 
-##  v0.7.21
-
-* add vless support
-
-## v0.7.20
-
-* fix trojan bug,v0.7.20
-
-## v0.7.19
-
-* support hysteria2,support more config of trojan
-
-## v0.7.18
-
-* change clash to mihomo
+(Change Log Link)[https://hub.docker.com/r/asdlokj1qpi23/proxypool]
 
 # Features
 * Supports multiple types: ss, ssr, vmess, trojan, hysteria2,vless
@@ -44,6 +30,8 @@ If you are using Clash, it is recommended to use the [Streaming Media Enhanced R
 
 ## Run
 
+### Docker
+
 ```shell
 docker run -d --restart=always \
   --name=proxypool \
@@ -51,6 +39,20 @@ docker run -d --restart=always \
   -v /path/to/config:/config \
   asdlokj1qpi23/proxypool \
   -c /config/config.yaml
+```
+### Docker-compose
+```yaml
+version: '3'
+services:
+  proxypool:
+    image: asdlokj1qpi23/proxypool:latest
+    container_name: proxypool
+    volumes:
+      - /path/to/config:/config
+    ports:
+      - "12580:12580"
+    restart: always
+    command: -c /config/config.yaml
 ```
 ## Disclaimer
 This project is for educational and reference purposes only. Users are advised to delete it after 24 hours. When using it, please refrain from violating local laws and regulations. It is prohibited to use this project for profit or engage in any other illegal activities. The project is not responsible for any consequences arising from its usage.
