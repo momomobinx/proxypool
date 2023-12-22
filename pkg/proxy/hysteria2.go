@@ -20,7 +20,6 @@ type Hysteria2 struct {
 	ALPN           []string `yaml:"alpn,omitempty" json:"alpn,omitempty"`
 	SNI            string   `yaml:"sni,omitempty" json:"sni,omitempty"`
 	SkipCertVerify bool     `yaml:"skip-cert-verify" json:"skip-cert-verify"`
-	UDP            bool     `yaml:"udp,omitempty" json:"udp,omitempty"`
 	OBFS           string   `yaml:"obfs,omitempty" json:"obgs,omitempty"`
 	OBFSPassword   string   `yaml:"obfs-password,omitempty" json:"obfs-password,omitempty"`
 	FingerPrint    string   `yaml:"fingerprint,omitempty" json:"fingerprint,omitempty"`
@@ -97,7 +96,7 @@ func ParseHysteria2Link(link string) (*Hysteria2, error) {
 
 	uri, err := url.Parse(link)
 	if err != nil {
-		return nil, ErrorNotSSLink
+		return nil, ErrorNotHysteria2Link
 	}
 
 	password := uri.User.Username()
@@ -126,10 +125,10 @@ func ParseHysteria2Link(link string) (*Hysteria2, error) {
 			Server: server,
 			Port:   port,
 			Type:   "hysteria2",
+			UDP:    true,
 		},
 		Password: password,
 		SNI:      sni,
-		UDP:      true,
 	}
 	if insecureeer == nil && insecure == "1" {
 		t.SkipCertVerify = true

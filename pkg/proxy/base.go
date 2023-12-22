@@ -101,6 +101,10 @@ func ParseProxyFromLink(link string) (p Proxy, err error) {
 		p, err = ParseVlessLink(link)
 	} else if strings.HasPrefix(link, "vless1://") {
 		p, err = ParseVlessLink(link)
+	} else if strings.HasPrefix(link, "hysteria://") {
+		p, err = ParseHysteriaLink(link)
+	} else if strings.HasPrefix(link, "hy://") {
+		p, err = ParseHysteriaLink(link)
 	}
 
 	if err != nil || p == nil {
@@ -241,6 +245,13 @@ func ParseProxyFromClashProxy(p map[string]interface{}) (proxy Proxy, err error)
 		//if !ValidPassword(&proxy.Password) {
 		//	return nil, errors.New("Password Error")
 		//}
+		return &proxy, nil
+	case "hysteria":
+		var proxy Hysteria
+		err := json.Unmarshal(pjson, &proxy)
+		if err != nil {
+			return nil, err
+		}
 		return &proxy, nil
 	}
 	return nil, errors.New("clash json parse failed")

@@ -130,3 +130,17 @@ func TestVlessLink(t *testing.T) {
 	}
 	fmt.Println(vless)
 }
+
+func TestHysteriaLink(t *testing.T) {
+	hysteria, err := ParseHysteriaLink("hysteria://host:1023?protocol=udp&auth=123456&peer=sni.domain&insecure=1&upmbps=100&downmbps=100&alpn=hysteria&obfs=xplus&obfsParam=123456#remarks")
+	if err != nil {
+		t.Error(err)
+	}
+	fmt.Println(hysteria)
+	fmt.Println(hysteria.Link())
+	hysteria, err = ParseHysteriaLink(hysteria.Link())
+	if err != nil {
+		t.Error(err)
+	}
+	fmt.Println(hysteria)
+}

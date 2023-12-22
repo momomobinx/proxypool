@@ -77,6 +77,8 @@ func CrawlGo() {
 	cache.LastCrawlTime = time.Now().In(location).Format("2006-01-02 15:04:05")
 	cache.Hysteria2ProxiesCount = proxies.TypeLen("hysteria2")
 	log.Infoln("Hysteria2ProxiesCount: %d", cache.Hysteria2ProxiesCount)
+	cache.HysteriaProxiesCount = proxies.TypeLen("hysteria")
+	log.Infoln("HysteriaProxiesCount: %d", cache.HysteriaProxiesCount)
 	cache.VlessProxiesCount = proxies.TypeLen("vless")
 	log.Infoln("VlessProxiesCount: %d", cache.VlessProxiesCount)
 	// Health Check
