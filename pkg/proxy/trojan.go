@@ -26,10 +26,10 @@ type Trojan struct {
 	SkipCertVerify bool             `yaml:"skip-cert-verify,omitempty" json:"skip-cert-verify,omitempty"`
 	WSOpts         *TrojanWSOptions `yaml:"ws-opts,omitempty" json:"ws-opts,omitempty"`
 	FingerPrint    string           `yaml:"fingerprint,omitempty" json:"fingerprint,omitempty"`
-	// Network        string      `yaml:"network,omitempty" json:"network,omitempty"`
-	GrpcOpts *GrpcOptions `yaml:"grpc-opts,omitempty" json:"grpc-opts,omitempty"`
-	Flow     string       `yaml:"flow,omitempty" json:"flow,omitempty"`
-	FlowShow bool         `yaml:"flow-show,omitempty" json:"flow-show,omitempty"`
+	Network        string           `yaml:"network,omitempty" json:"network,omitempty"`
+	GrpcOpts       *GrpcOptions     `yaml:"grpc-opts,omitempty" json:"grpc-opts,omitempty"`
+	Flow           string           `yaml:"flow,omitempty" json:"flow,omitempty"`
+	FlowShow       bool             `yaml:"flow-show,omitempty" json:"flow-show,omitempty"`
 }
 type TrojanWSOptions struct {
 	Path             string            `yaml:"path,omitempty" json:"path,omitempty"`
@@ -212,6 +212,9 @@ func ParseTrojanLink(link string) (*Trojan, error) {
 		t.GrpcOpts = &GrpcOptions{
 			GrpcServiceName: serviceName,
 		}
+	}
+	if transformType != "" {
+		t.Network = transformType
 	}
 	if patherr == nil && path != "" {
 		if hostErr == nil && host != "" {
