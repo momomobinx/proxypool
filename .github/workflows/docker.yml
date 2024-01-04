@@ -62,7 +62,7 @@ jobs:
         if: github.ref == 'refs/heads/master'
         uses: docker/build-push-action@v3
         with:
-          push: true
+          outputs: type=image,push=true
           platforms: linux/amd64
           context: .
           tags: ${{ secrets.DOCKER_USERNAME }}/proxypool:latest
@@ -124,7 +124,7 @@ jobs:
         if: github.ref == 'refs/heads/master'
         uses: docker/build-push-action@v3
         with:
-          push: true
+          outputs: type=image,push=true
           platforms: linux/386
           context: .
           tags: ${{ secrets.DOCKER_USERNAME }}/proxypool:latest
@@ -185,7 +185,7 @@ jobs:
         if: github.ref == 'refs/heads/master'
         uses: docker/build-push-action@v3
         with:
-          push: true
+          outputs: type=image,push=true
           platforms: linux/arm/v7
           context: .
           tags: ${{ secrets.DOCKER_USERNAME }}/proxypool:latest
@@ -246,7 +246,7 @@ jobs:
         if: github.ref == 'refs/heads/master'
         uses: docker/build-push-action@v3
         with:
-          push: true
+          outputs: type=image,push=true
           platforms: linux/arm64
           context: .
           tags: ${{ secrets.DOCKER_USERNAME }}/proxypool:latest
