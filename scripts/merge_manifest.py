@@ -10,5 +10,7 @@ for i in glob.glob("/tmp/images/*/*.txt"):
         args += " --amend {}@{}".format(MAIN_IMAGE_NAME, file.readline().strip())
 cmd_create="".join(args)
 cmd_push="docker manifest push {}:{}".format(MAIN_IMAGE_NAME, TARGET_TAG)
+print(cmd_create)
 os.system(cmd_create)
+print(cmd_push)
 os.system(cmd_push)
