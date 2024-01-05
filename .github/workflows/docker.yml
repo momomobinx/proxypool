@@ -61,6 +61,7 @@ jobs:
       - name: Build and push Docker images
         if: github.ref == 'refs/heads/master'
         uses: docker/build-push-action@v3
+        id: build
         with:
           outputs: type=image,push=true
           platforms: linux/amd64
@@ -123,6 +124,7 @@ jobs:
       - name: Build and push Docker images
         if: github.ref == 'refs/heads/master'
         uses: docker/build-push-action@v3
+        id: build
         with:
           outputs: type=image,push=true
           platforms: linux/386
@@ -184,6 +186,7 @@ jobs:
       - name: Build and push Docker images
         if: github.ref == 'refs/heads/master'
         uses: docker/build-push-action@v3
+        id: build
         with:
           outputs: type=image,push=true
           platforms: linux/arm/v7
@@ -244,6 +247,7 @@ jobs:
         run: echo "sha_short=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
       - name: Build and push Docker images
         if: github.ref == 'refs/heads/master'
+        id: build
         uses: docker/build-push-action@v3
         with:
           outputs: type=image,push=true
