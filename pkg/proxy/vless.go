@@ -5,6 +5,7 @@ import (
 	"errors"
 	"net"
 	"net/url"
+	"regexp"
 	"strconv"
 	"strings"
 )
@@ -243,4 +244,20 @@ func ParseVlessLink(link string) (*Vless, error) {
 		}
 	}
 	return t, nil
+}
+
+var (
+	vlessPlainRe = regexp.MustCompile("vless://([A-Za-z0-9+/_&?=@:%.-])+")
+)
+
+func GrepVlessLinkFromString(text string) []string {
+	results := make([]string, 0)
+	if !strings.Contains(text, "vless://") {
+		return results
+	}
+	texts := strings.Split(text, "vless://")
+	for _, text := range texts {
+		results = append(results, vlessPlainRe.FindAllString("vless://"+text, -1)...)
+	}
+	return results
 }

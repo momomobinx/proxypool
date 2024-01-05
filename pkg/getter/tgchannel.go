@@ -3,6 +3,7 @@ package getter
 import (
 	"fmt"
 	"io"
+	"regexp"
 	"strings"
 	"sync"
 
@@ -63,6 +64,8 @@ func (g *TGChannelGetter) Get() proxy.ProxyList {
 		// 抓取到http链接，有可能是订阅链接或其他链接，无论如何试一下
 		subUrls := urlRe.FindAllString(e.Text, -1)
 		for _, url := range subUrls {
+			cnRegexp := regexp.MustCompile("[\u4e00-\u9fa5]+")
+			url := cnRegexp.ReplaceAllString(url, "")
 			result = append(result, (&Subscribe{Url: url}).Get()...)
 		}
 	})

@@ -5,6 +5,7 @@ import (
 	"errors"
 	"net"
 	"net/url"
+	"regexp"
 	"strconv"
 	"strings"
 )
@@ -142,4 +143,25 @@ func ParseHysteria2Link(link string) (*Hysteria2, error) {
 		}
 	}
 	return t, nil
+}
+
+var (
+	hysteria2PlainRe  = regexp.MustCompile("hysteria2://([A-Za-z0-9+/_&?=@:%.-])+")
+	hysteria2PlainRe1 = regexp.MustCompile("hy2://([A-Za-z0-9+/_&?=@:%.-])+")
+)
+
+func GrepHysteria2LinkFromString(text string) []string {
+	results := make([]string, 0)
+	if strings.Contains(text, "hysteria2://") {
+		texts := strings.Split(text, "hysteria2://")
+		for _, text := range texts {
+			results = append(results, hysteria2PlainRe.FindAllString("hysteria2://"+text, -1)...)
+		}
+	} else if strings.Contains(text, "hy2://") {
+		texts := strings.Split(text, "hy2://")
+		for _, text := range texts {
+			results = append(results, hysteria2PlainRe1.FindAllString("hy2://"+text, -1)...)
+		}
+	}
+	return results
 }
