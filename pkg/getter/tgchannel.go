@@ -3,9 +3,9 @@ package getter
 import (
 	"fmt"
 	"io"
-	"regexp"
 	"strings"
 	"sync"
+	"unicode/utf8"
 
 	"github.com/asdlokj1qpi23/proxypool/log"
 
@@ -55,6 +55,22 @@ func NewTGChannelGetter(options tool.Options) (getter Getter, err error) {
 	return nil, ErrorUrlNotFound
 }
 
+func findFirstChineseChar(str string) int {
+	for i := 0; i < len(str); {
+		r, size := utf8.DecodeRuneInString(str[i:])
+		if isChinese(r) {
+			return i
+		}
+		i += size
+	}
+	return -1
+}
+
+func isChinese(r rune) bool {
+	// 判断字符是否为中文字符
+	return r >= 0x4E00 && r <= 0x9FFF
+}
+
 func (g *TGChannelGetter) Get() proxy.ProxyList {
 	result := make(proxy.ProxyList, 0)
 	g.results = make([]string, 0)
@@ -64,8 +80,10 @@ func (g *TGChannelGetter) Get() proxy.ProxyList {
 		// 抓取到http链接，有可能是订阅链接或其他链接，无论如何试一下
 		subUrls := urlRe.FindAllString(e.Text, -1)
 		for _, url := range subUrls {
-			cnRegexp := regexp.MustCompile("[\u4e00-\u9fa5]+")
-			url := cnRegexp.ReplaceAllString(url, "")
+			index := findFirstChineseChar(url)
+			if index != -1 {
+				url = url[:index]
+			}
 			result = append(result, (&Subscribe{Url: url}).Get()...)
 		}
 	})
