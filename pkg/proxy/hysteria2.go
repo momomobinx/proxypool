@@ -28,6 +28,7 @@ type Hysteria2 struct {
 	CAStr          string   `yaml:"ca-str,omitempty" json:"ca-str,omitempty"`
 	UP             string   `yaml:"up,omitempty" json:"up,omitempty"`
 	DOWN           string   `yaml:"down,omitempty" json:"down,omitempty"`
+	Ports          string   `yaml:"ports,omitempty" json:"ports,omitempty"`
 }
 
 func (h Hysteria2) String() string {
@@ -114,6 +115,8 @@ func ParseHysteria2Link(link string) (*Hysteria2, error) {
 	obfs, obfserr := url.QueryUnescape(obfs)
 	obfsPassword := moreInfos.Get("obfs-password")
 	obfsPassword, obfsPassworderr := url.QueryUnescape(obfsPassword)
+	ports := moreInfos.Get("ports")
+	ports, portserr := url.QueryUnescape(ports)
 	if port == 0 {
 		port = 443
 	}
@@ -130,6 +133,9 @@ func ParseHysteria2Link(link string) (*Hysteria2, error) {
 		},
 		Password: password,
 		SNI:      sni,
+	}
+	if portserr == nil && ports != "" {
+		t.Ports = ports
 	}
 	if insecureeer == nil && insecure == "1" {
 		t.SkipCertVerify = true
