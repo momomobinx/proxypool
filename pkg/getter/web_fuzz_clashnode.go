@@ -25,8 +25,10 @@ func (w *WebFuzzClashNode) Get() proxy.ProxyList {
 	result := make(proxy.ProxyList, 0)
 	if len(subUrls) != 0 {
 		for _, url := range subUrls {
-			if (strings.Contains(url, "https://") || strings.Contains(url, "http://")) && strings.HasSuffix(url, "html") {
-				pUrls := GetUrls(url)
+			//if (strings.Contains(url, "https://") || strings.Contains(url, "http://")) && strings.HasSuffix(url, "htm") {
+			if strings.HasSuffix(url, "htm") {
+				wholeUrl := "https://www.freeclashnode.com/free-node/" + url
+				pUrls := GetUrls(wholeUrl)
 				if len(pUrls) != 0 {
 					for _, pUrl := range pUrls {
 						if (strings.Contains(pUrl, "https://") || strings.Contains(pUrl, "http://")) && (strings.HasSuffix(pUrl, "txt") || strings.HasSuffix(pUrl, "yaml")) {
@@ -38,6 +40,7 @@ func (w *WebFuzzClashNode) Get() proxy.ProxyList {
 						}
 					}
 				}
+				break
 			}
 		}
 	}
