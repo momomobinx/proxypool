@@ -45,6 +45,7 @@ type ConfigOptions struct {
 	StreamMaxConn         int        `json:"stream-max-connect" yaml:"stream-max-connect"`
 	PoolFiles             []PoolFile `json:"pool-files" yaml:"pool-files"`
 	PoolFilesCheck        bool       `json:"pool-files-check" yaml:"pool-files-check"`
+	TestUrl               string     `json:"test-url" yaml:"test-url"`
 }
 
 // Config 配置
