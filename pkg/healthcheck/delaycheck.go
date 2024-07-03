@@ -20,6 +20,10 @@ import (
 	"time"
 )
 
+func isIPv6Address(address string) bool {
+	ip := net.ParseIP(address)
+	return ip != nil && ip.To4() == nil
+}
 func CleanBadProxiesWithGrpool(proxies []proxy.Proxy) (cproxies []proxy.Proxy) {
 	// Note: Grpool实现对go并发管理的封装，主要是在数据量大时减少内存占用，不会提高效率。
 	log.Debugln("[delaycheck.go] connection: %d, timeout: %.2fs", DelayConn, DelayTimeout.Seconds())
@@ -45,15 +49,17 @@ func CleanBadProxiesWithGrpool(proxies []proxy.Proxy) (cproxies []proxy.Proxy) {
 				delay, err := testDelay(pp)
 				if err == nil && delay != 0 {
 					m.Lock()
-					cproxies = append(cproxies, pp)
-					if ps, ok := ProxyStats.Find(pp); ok {
-						ps.UpdatePSDelay(delay)
-					} else {
-						ps = &Stat{
-							Id:    pp.Identifier(),
-							Delay: delay,
+					if !isIPv6Address(pp.BaseInfo().Server) {
+						cproxies = append(cproxies, pp)
+						if ps, ok := ProxyStats.Find(pp); ok {
+							ps.UpdatePSDelay(delay)
+						} else {
+							ps = &Stat{
+								Id:    pp.Identifier(),
+								Delay: delay,
+							}
+							ProxyStats = append(ProxyStats, *ps)
 						}
-						ProxyStats = append(ProxyStats, *ps)
 					}
 					m.Unlock()
 				}
