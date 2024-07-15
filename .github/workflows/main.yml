@@ -12,22 +12,17 @@ jobs:
         with:
           go-version: 1.21
 
-      - name: Check out code
-        uses: actions/checkout@v4
-        with:
-          repository: 'asdlokj1qpi23/proxypool'
-          path: 'proxypool'
+      - name: Check out code into the Go module directory
+        uses: actions/checkout@v3
 
-      - name: Install Go modules
-        run: go mod download
-        working-directory: ./proxypool
+      - name: go get
+        run: go get
 
       - name: Copy output folder contents to proxypool code root directory
-        run: cp -r proxypool/nodeconfig/* ./proxypool/
+        run: cp -r ./nodeconfig/* ./
 
       - name: Run main function
         run: go run main.go
-        working-directory: ./proxypool
 
       - name: Commit output.txt to the repository
         run: |
