@@ -8,7 +8,7 @@ only-node: true
 source-files:
   # use local file
   - source.yaml
-  - https://raw.githubusercontent.com/asdlokj1qpi23/subrule/main/tg.yaml
+#  - https://raw.githubusercontent.com/asdlokj1qpi23/subrule/main/tg.yaml
   #- tgchannel.yaml
   #- webfuzz.yaml
   #- clash.yaml
