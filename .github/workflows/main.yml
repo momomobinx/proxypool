@@ -1,6 +1,10 @@
 name: Go get Nodes
 
-on: [push]
+on:
+  push:
+  schedule:
+    - cron: '0 */2 * * *'  # 每两个小时运行一次
+
 
 jobs:
   build-and-deploy:
