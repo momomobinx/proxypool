@@ -102,7 +102,7 @@ func CrawlGo() {
 		cache.VlessProxiesCount = proxies.TypeLen("vless")
 		log.Infoln("VlessProxiesCount: %d", cache.VlessProxiesCount)
 		cache.TuicProxiesCount = proxies.TypeLen("tuic")
-		log.Infoln("TuicProxiesCount: %d", cache.VlessProxiesCount)
+		log.Infoln("TuicProxiesCount: %d", cache.TuicProxiesCount)
 		// Health Check
 		log.Infoln("Now proceed proxy health check...")
 		healthcheck.SpeedConn = C.Config.SpeedConnection
