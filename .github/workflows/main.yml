@@ -1,4 +1,4 @@
-name: Go Build and Deploy
+name: Go get Nodes
 
 on: [push]
 
@@ -34,6 +34,6 @@ jobs:
           cp ../output.txt .
           git add output.txt
           git commit -m "Add output.txt"
-          git push --force origin node
+          git push --force origin main
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
