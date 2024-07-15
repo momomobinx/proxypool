@@ -144,3 +144,17 @@ func TestHysteriaLink(t *testing.T) {
 	}
 	fmt.Println(hysteria)
 }
+
+func TestTuicLink(t *testing.T) {
+	trojan, err := ParseTuicLink("tuic://260139d2-8f99-4033-ab35-651925434420:ckiakmDojtl1@8.8.8.8:443?sni=jpnat.ddns.gay&alpn=h3&congestion_control=bbr#tuic_jp")
+	if err != nil {
+		t.Error(err)
+	}
+	fmt.Println(trojan)
+	fmt.Println(trojan.Link())
+	trojan, err = ParseTuicLink(trojan.Link())
+	if err != nil {
+		t.Error(err)
+	}
+	fmt.Println(trojan)
+}

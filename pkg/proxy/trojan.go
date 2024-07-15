@@ -11,7 +11,7 @@ import (
 )
 
 var (
-	ErrorNotTrojanink = errors.New("not a correct trojan link")
+	ErrorNotTrojanLink = errors.New("not a correct trojan link")
 )
 
 // TODO unknown field
@@ -114,7 +114,7 @@ func (t Trojan) Link() (link string) {
 
 func ParseTrojanLink(link string) (*Trojan, error) {
 	if !strings.HasPrefix(link, "trojan://") && !strings.HasPrefix(link, "trojan-go://") {
-		return nil, ErrorNotTrojanink
+		return nil, ErrorNotTrojanLink
 	}
 
 	/**

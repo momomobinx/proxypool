@@ -49,6 +49,7 @@ func setupRouter() {
 			"hysteria2_proxies_count": appcache.Hysteria2ProxiesCount,
 			"hysteria_proxies_count":  appcache.HysteriaProxiesCount,
 			"vless_proxies_count":     appcache.VlessProxiesCount,
+			"tuic_proxies_count":      appcache.TuicProxiesCount,
 			"ssr_proxies_count":       appcache.SSRProxiesCount,
 			"vmess_proxies_count":     appcache.VmessProxiesCount,
 			"trojan_proxies_count":    appcache.TrojanProxiesCount,

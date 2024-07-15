@@ -8,6 +8,7 @@ var (
 	SSProxiesCount        = 0
 	Hysteria2ProxiesCount = 0
 	HysteriaProxiesCount  = 0
+	TuicProxiesCount      = 0
 	VlessProxiesCount     = 0
 	VmessProxiesCount     = 0
 	TrojanProxiesCount    = 0

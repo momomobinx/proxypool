@@ -69,6 +69,8 @@ func checkClashSupport(p proxy.Proxy) bool {
 		return true
 	case "vless":
 		return true
+	case "tuic":
+		return true
 	default:
 		return false
 	}

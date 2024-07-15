@@ -63,6 +63,7 @@ func GrepLinksFromString(text string) []string {
 	results = append(results, proxy.GrepVlessLinkFromString(text)...)
 	results = append(results, proxy.GrepHysteriaLinkFromString(text)...)
 	results = append(results, proxy.GrepHysteria2LinkFromString(text)...)
+	results = append(results, proxy.GrepTuicLinkFromString(text)...)
 	return results
 }
 
