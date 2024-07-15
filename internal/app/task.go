@@ -2,7 +2,9 @@ package app
 
 import (
 	"fmt"
+	"github.com/asdlokj1qpi23/proxypool/pkg/geoIp"
 	"github.com/asdlokj1qpi23/proxypool/pkg/healthcheck/stream"
+	"os"
 	"sync"
 	"time"
 
@@ -10,7 +12,6 @@ import (
 	"github.com/asdlokj1qpi23/proxypool/internal/cache"
 	"github.com/asdlokj1qpi23/proxypool/internal/database"
 	"github.com/asdlokj1qpi23/proxypool/log"
-	"github.com/asdlokj1qpi23/proxypool/pkg/geoIp"
 	"github.com/asdlokj1qpi23/proxypool/pkg/healthcheck"
 	"github.com/asdlokj1qpi23/proxypool/pkg/provider"
 	"github.com/asdlokj1qpi23/proxypool/pkg/proxy"
@@ -61,98 +62,119 @@ func CrawlGo() {
 			Proxies: &proxies,
 		},
 	}.CleanProxies()
-	log.Infoln("CrawlGo clash supported proxy count: %d", len(proxies))
+	if C.Config.OnlyNode {
+		clash := provider.Clash{
+			Base: provider.Base{
+				Proxies: &proxies,
+			},
+		}
+		text := clash.Provide()
 
-	cache.SetProxies("allproxies", proxies)
-	cache.AllProxiesCount = proxies.Len()
-	log.Infoln("AllProxiesCount: %d", cache.AllProxiesCount)
-	cache.SSProxiesCount = proxies.TypeLen("ss")
-	log.Infoln("SSProxiesCount: %d", cache.SSProxiesCount)
-	cache.SSRProxiesCount = proxies.TypeLen("ssr")
-	log.Infoln("SSRProxiesCount: %d", cache.SSRProxiesCount)
-	cache.VmessProxiesCount = proxies.TypeLen("vmess")
-	log.Infoln("VmessProxiesCount: %d", cache.VmessProxiesCount)
-	cache.TrojanProxiesCount = proxies.TypeLen("trojan")
-	log.Infoln("TrojanProxiesCount: %d", cache.TrojanProxiesCount)
-	cache.LastCrawlTime = time.Now().In(location).Format("2006-01-02 15:04:05")
-	cache.Hysteria2ProxiesCount = proxies.TypeLen("hysteria2")
-	log.Infoln("Hysteria2ProxiesCount: %d", cache.Hysteria2ProxiesCount)
-	cache.HysteriaProxiesCount = proxies.TypeLen("hysteria")
-	log.Infoln("HysteriaProxiesCount: %d", cache.HysteriaProxiesCount)
-	cache.VlessProxiesCount = proxies.TypeLen("vless")
-	log.Infoln("VlessProxiesCount: %d", cache.VlessProxiesCount)
-	cache.TuicProxiesCount = proxies.TypeLen("tuic")
-	log.Infoln("TuicProxiesCount: %d", cache.VlessProxiesCount)
-	// Health Check
-	log.Infoln("Now proceed proxy health check...")
-	healthcheck.SpeedConn = C.Config.SpeedConnection
-	healthcheck.DelayConn = C.Config.HealthCheckConnection
-	if C.Config.HealthCheckTimeout > 0 {
-		healthcheck.DelayTimeout = time.Second * time.Duration(C.Config.HealthCheckTimeout)
-		log.Infoln("CONF: Health check timeout is set to %d seconds", C.Config.HealthCheckTimeout)
-	}
+		file, err := os.OpenFile("output.txt", os.O_WRONLY|os.O_CREATE|os.O_TRUNC, 0644)
+		if err != nil {
+			log.Errorln("Error opening file:", err)
+		}
+		defer file.Close()
 
-	proxies = healthcheck.CleanBadProxiesWithGrpool(proxies)
+		_, err = file.WriteString(text)
+		if err != nil {
+			log.Errorln("Error writing to file:", err)
+		}
+		os.Exit(1)
+		log.Infoln("String successfully written to file.")
+		log.Infoln("CrawlGo clash supported proxy count: %d", len(proxies))
+	} else {
+		cache.SetProxies("allproxies", proxies)
+		cache.AllProxiesCount = proxies.Len()
+		log.Infoln("AllProxiesCount: %d", cache.AllProxiesCount)
+		cache.SSProxiesCount = proxies.TypeLen("ss")
+		log.Infoln("SSProxiesCount: %d", cache.SSProxiesCount)
+		cache.SSRProxiesCount = proxies.TypeLen("ssr")
+		log.Infoln("SSRProxiesCount: %d", cache.SSRProxiesCount)
+		cache.VmessProxiesCount = proxies.TypeLen("vmess")
+		log.Infoln("VmessProxiesCount: %d", cache.VmessProxiesCount)
+		cache.TrojanProxiesCount = proxies.TypeLen("trojan")
+		log.Infoln("TrojanProxiesCount: %d", cache.TrojanProxiesCount)
+		cache.LastCrawlTime = time.Now().In(location).Format("2006-01-02 15:04:05")
+		cache.Hysteria2ProxiesCount = proxies.TypeLen("hysteria2")
+		log.Infoln("Hysteria2ProxiesCount: %d", cache.Hysteria2ProxiesCount)
+		cache.HysteriaProxiesCount = proxies.TypeLen("hysteria")
+		log.Infoln("HysteriaProxiesCount: %d", cache.HysteriaProxiesCount)
+		cache.VlessProxiesCount = proxies.TypeLen("vless")
+		log.Infoln("VlessProxiesCount: %d", cache.VlessProxiesCount)
+		cache.TuicProxiesCount = proxies.TypeLen("tuic")
+		log.Infoln("TuicProxiesCount: %d", cache.VlessProxiesCount)
+		// Health Check
+		log.Infoln("Now proceed proxy health check...")
+		healthcheck.SpeedConn = C.Config.SpeedConnection
+		healthcheck.DelayConn = C.Config.HealthCheckConnection
+		if C.Config.HealthCheckTimeout > 0 {
+			healthcheck.DelayTimeout = time.Second * time.Duration(C.Config.HealthCheckTimeout)
+			log.Infoln("CONF: Health check timeout is set to %d seconds", C.Config.HealthCheckTimeout)
+		}
 
-	// proxies = healthcheck.CleanBadProxies(proxies)
+		proxies = healthcheck.CleanBadProxiesWithGrpool(proxies)
 
-	log.Infoln("CrawlGo clash usable proxy count: %d", len(proxies))
+		// proxies = healthcheck.CleanBadProxies(proxies)
 
-	// Format name like US_01 sorted by country
-	proxies.NameAddCounrty().Sort()
-	log.Infoln("Proxy rename DONE!")
+		log.Infoln("CrawlGo clash usable proxy count: %d", len(proxies))
 
-	// Relay check and rename
-	healthcheck.RelayCheck(proxies)
-	for i := range proxies {
-		if s, ok := healthcheck.ProxyStats.Find(proxies[i]); ok {
-			if s.Relay {
-				_, c, e := geoIp.GeoIpDB.Find(s.OutIp)
-				if e == nil {
-					proxies[i].SetName(fmt.Sprintf("Relay_%s-%s", proxies[i].BaseInfo().Name, c))
+		// Format name like US_01 sorted by country
+		proxies.NameAddCounrty().Sort()
+		log.Infoln("Proxy rename DONE!")
+
+		// Relay check and rename
+		healthcheck.RelayCheck(proxies)
+		for i := range proxies {
+			if s, ok := healthcheck.ProxyStats.Find(proxies[i]); ok {
+				if s.Relay {
+					_, c, e := geoIp.GeoIpDB.Find(s.OutIp)
+					if e == nil {
+						proxies[i].SetName(fmt.Sprintf("Relay_%s-%s", proxies[i].BaseInfo().Name, c))
+					}
+				} else if s.Pool {
+					proxies[i].SetName(fmt.Sprintf("Pool_%s", proxies[i].BaseInfo().Name))
 				}
-			} else if s.Pool {
-				proxies[i].SetName(fmt.Sprintf("Pool_%s", proxies[i].BaseInfo().Name))
 			}
 		}
+		proxies.NameAddIndex()
+		if C.Config.NetflixTest {
+			cache.IsNetflixTest = "已开启"
+			proxies = stream.RunNetflix(proxies)
+			log.Infoln("Netflix check DONE!")
+		} else {
+			cache.IsNetflixTest = "未开启"
+		}
+
+		if C.Config.DisneyTest {
+			cache.IsDisneyTest = "已开启"
+			stream.RunDisney(proxies)
+			log.Infoln("Disney check DONE!")
+		} else {
+			cache.IsDisneyTest = "未开启"
+		}
+
+		// 可用节点存储
+		cache.SetProxies("proxies", proxies)
+		cache.UsefullProxiesCount = proxies.Len()
+		database.SaveProxyList(proxies)
+		database.ClearOldItems()
+
+		log.Infoln("Usablility checking done. Open %s to check", C.Config.HostUrl())
+
+		// 测速
+		speedTestNew(proxies)
+		cache.SetString("clashproxies", provider.Clash{
+			Base: provider.Base{
+				Proxies: &proxies,
+			},
+		}.Provide()) // update static string provider
+		cache.SetString("surgeproxies", provider.Surge{
+			Base: provider.Base{
+				Proxies: &proxies,
+			},
+		}.Provide())
 	}
-	proxies.NameAddIndex()
-	if C.Config.NetflixTest {
-		cache.IsNetflixTest = "已开启"
-		proxies = stream.RunNetflix(proxies)
-		log.Infoln("Netflix check DONE!")
-	} else {
-		cache.IsNetflixTest = "未开启"
-	}
-
-	if C.Config.DisneyTest {
-		cache.IsDisneyTest = "已开启"
-		stream.RunDisney(proxies)
-		log.Infoln("Disney check DONE!")
-	} else {
-		cache.IsDisneyTest = "未开启"
-	}
-
-	// 可用节点存储
-	cache.SetProxies("proxies", proxies)
-	cache.UsefullProxiesCount = proxies.Len()
-	database.SaveProxyList(proxies)
-	database.ClearOldItems()
-
-	log.Infoln("Usablility checking done. Open %s to check", C.Config.HostUrl())
-
-	// 测速
-	speedTestNew(proxies)
-	cache.SetString("clashproxies", provider.Clash{
-		Base: provider.Base{
-			Proxies: &proxies,
-		},
-	}.Provide()) // update static string provider
-	cache.SetString("surgeproxies", provider.Surge{
-		Base: provider.Base{
-			Proxies: &proxies,
-		},
-	}.Provide())
 }
 
 // Speed test for new proxies

@@ -46,6 +46,7 @@ type ConfigOptions struct {
 	PoolFiles             []PoolFile `json:"pool-files" yaml:"pool-files"`
 	PoolFilesCheck        bool       `json:"pool-files-check" yaml:"pool-files-check"`
 	TestUrl               string     `json:"test-url" yaml:"test-url"`
+	OnlyNode              bool       `json:"only-node" yaml:"only-node"`
 }
 
 // Config 配置

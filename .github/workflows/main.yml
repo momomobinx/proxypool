@@ -1,0 +1,39 @@
+name: Go Build and Deploy
+
+on: [push]
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Set up Go 1.21
+        uses: actions/setup-go@v2
+        with:
+          go-version: 1.21
+
+      - name: Check out code
+        uses: actions/checkout@v4
+        with:
+          repository: 'asdlokj1qpi23/proxypool'
+          path: 'proxypool'
+
+      - name: Install Go modules
+        run: go mod download
+        working-directory: ./proxypool
+
+      - name: Copy output folder contents to proxypool code root directory
+        run: cp -r proxypool/nodeconfig/* ./proxypool/
+
+      - name: Run main function
+        run: go run main.go
+        working-directory: ./proxypool
+
+      - name: Commit output.txt to the repository
+        run: |
+          git config --global user.name 'asdlokj1qpi23'
+          git config --global user.email 'your-email@example.com'
+          git add output.txt
+          git commit -m "Add output.txt"
+          git push
+        working-directory: ./proxypool

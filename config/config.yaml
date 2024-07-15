@@ -10,6 +10,7 @@ pool-files:  # v0.7.15 When the readiness check is executed, it will output a so
 #    url: https://example.com/config/source.yaml # use web file
 #  - type: yaml # use local file
 #    url: source.yaml # local file
+only-node: false
 
 # source list file
 source-files:
