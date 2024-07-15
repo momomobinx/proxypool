@@ -72,17 +72,16 @@ func CrawlGo() {
 
 		file, err := os.OpenFile("output.txt", os.O_WRONLY|os.O_CREATE|os.O_TRUNC, 0644)
 		if err != nil {
-			log.Errorln("Error opening file:", err)
+			log.Infoln("Error opening file:", err)
 		}
 		defer file.Close()
-
 		_, err = file.WriteString(text)
 		if err != nil {
-			log.Errorln("Error writing to file:", err)
+			log.Infoln("Error writing to file:", err)
 		}
-		os.Exit(1)
 		log.Infoln("String successfully written to file.")
 		log.Infoln("CrawlGo clash supported proxy count: %d", len(proxies))
+		os.Exit(0)
 	} else {
 		cache.SetProxies("allproxies", proxies)
 		cache.AllProxiesCount = proxies.Len()

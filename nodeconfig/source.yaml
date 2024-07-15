@@ -1,15 +1,15 @@
-- type: webfuzzsub
-  options:
-    url: https://github.com/snakem982/proxypool/blob/main/source/nodelist.txt
-- type: webfuzzsub
-  options:
-    url: https://raw.githubusercontent.com/Leon406/jsdelivr/daf795e2da5ddf59b215bf2f4c3b4a2989a864c6/subscribe/subpool
-- type: webfuzzsub
-  options:
-    url: https://raw.githubusercontent.com/asdlokj1qpi23/subrule/main/list.txt
-- type: webfuzzsub
-  options:
-    url: https://raw.githubusercontent.com/Leon406/jsdelivr/daf795e2da5ddf59b215bf2f4c3b4a2989a864c6/subscribe/sub.txt
-- type: webfuzzclashnode
-  options:
-    url: https://www.freeclashnode.com/free-node/
+#- type: webfuzzsub
+#  options:
+#    url: https://github.com/snakem982/proxypool/blob/main/source/nodelist.txt
+#- type: webfuzzsub
+#  options:
+#    url: https://raw.githubusercontent.com/Leon406/jsdelivr/daf795e2da5ddf59b215bf2f4c3b4a2989a864c6/subscribe/subpool
+#- type: webfuzzsub
+#  options:
+#    url: https://raw.githubusercontent.com/asdlokj1qpi23/subrule/main/list.txt
+#- type: webfuzzsub
+#  options:
+#    url: https://raw.githubusercontent.com/Leon406/jsdelivr/daf795e2da5ddf59b215bf2f4c3b4a2989a864c6/subscribe/sub.txt
+#- type: webfuzzclashnode
+#  options:
+#    url: https://www.freeclashnode.com/free-node/
