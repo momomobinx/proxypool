@@ -46,6 +46,12 @@ func CleanBadProxiesWithGrpool(proxies []proxy.Proxy) (cproxies []proxy.Proxy) {
 			pp := p // 捕获，否则job执行时是按当前的p测试的
 			pool.JobQueue <- func() {
 				defer pool.JobDone()
+				defer func() {
+					if r := recover(); r != nil {
+						// 捕获异常并处理
+						_ = fmt.Errorf("testDelay panic: %v", r)
+					}
+				}()
 				delay, err := testDelay(pp)
 				if err == nil && delay != 0 {
 					m.Lock()
