@@ -54,6 +54,25 @@ func CrawlGo() {
 
 	proxies.NameClear()
 	proxies = proxies.Derive()
+	if C.Config.OnlyNode {
+		clash := provider.Clash{
+			Base: provider.Base{
+				Proxies: &proxies,
+			},
+		}
+		text := clash.Provide()
+
+		file, err := os.OpenFile("allnode.txt", os.O_WRONLY|os.O_CREATE|os.O_TRUNC, 0644)
+		if err != nil {
+			log.Infoln("Error opening file")
+		}
+		defer file.Close()
+		_, err = file.WriteString(text)
+		if err != nil {
+			log.Infoln("Error writing to file")
+		}
+		log.Infoln("String successfully written to file.")
+	}
 	log.Infoln("CrawlGo unique proxy count: %d", len(proxies))
 
 	// Clean Clash unsupported proxy because health check depends on clash
@@ -156,7 +175,7 @@ func CrawlGo() {
 	// 测速
 	speedTestNew(proxies)
 	cache.SetString("clashproxies", provider.Clash{
-	Base: provider.Base{
+		Base: provider.Base{
 			Proxies: &proxies,
 		},
 	}.Provide()) // update static string provider

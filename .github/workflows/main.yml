@@ -37,7 +37,9 @@ jobs:
           git checkout main || git checkout -b main
           cp ../output.txt .
           git add output.txt
-          git commit -m "Add output.txt"
+          cp ../allnode.txt .
+          git add allnode.txt
+          git commit -m "Add node info."
           git push --force https://x-access-token:${{ secrets.ACCESS_TOKEN }}@github.com/asdlokj1qpi23/nodelist.git main
         env:
           GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
