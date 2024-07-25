@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"github.com/asdlokj1qpi23/proxypool/pkg/utils"
 	"math/rand"
 	"net"
 	"net/url"
@@ -320,6 +321,8 @@ func ParseVmessLink(link string) (*Vmess, error) {
 		}
 		if alpn != "" {
 			v.ALPN = []string{alpn}
+			v.ALPN = utils.FormatAlpnArray(v.ALPN)
+
 		}
 		return &v, nil
 	} else {
