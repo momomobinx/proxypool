@@ -6,7 +6,6 @@ import (
 	"github.com/asdlokj1qpi23/proxypool/pkg/proxy"
 	"github.com/metacubex/mihomo/adapter"
 	C "github.com/metacubex/mihomo/constant"
-	"strings"
 )
 
 func ParseCustomizeProxy(p proxy.Proxy) (cProxy C.Proxy, err error) {
@@ -24,17 +23,5 @@ func ParseCustomizeProxy(p proxy.Proxy) (cProxy C.Proxy, err error) {
 		return
 	}
 	cProxy, err = adapter.ParseProxy(pmap)
-	return
-}
-
-func FormatAlpnArray(alpns []string) (result []string) {
-	for _, str := range alpns {
-		if strings.Contains(str, ",") {
-			subStrs := strings.Split(str, ",")
-			result = append(result, subStrs...)
-		} else {
-			result = append(result, str)
-		}
-	}
 	return
 }

@@ -3,8 +3,8 @@ package proxy
 import (
 	"encoding/json"
 	"errors"
+	"github.com/asdlokj1qpi23/proxypool/pkg/alpn"
 	"github.com/asdlokj1qpi23/proxypool/pkg/geoIp"
-	"github.com/asdlokj1qpi23/proxypool/pkg/utils"
 	"strings"
 	"unicode/utf8"
 )
@@ -215,7 +215,7 @@ func ParseProxyFromClashProxy(p map[string]interface{}) (proxy Proxy, err error)
 		if err != nil {
 			return nil, err
 		}
-		proxy.ALPN = utils.FormatAlpnArray(proxy.ALPN)
+		proxy.ALPN = alpn.FormatAlpnArray(proxy.ALPN)
 		return &proxy, nil
 	case "trojan":
 		var proxy Trojan
@@ -226,7 +226,7 @@ func ParseProxyFromClashProxy(p map[string]interface{}) (proxy Proxy, err error)
 		//if !ValidPassword(&proxy.Password) {
 		//	return nil, errors.New("Password Error")
 		//}
-		proxy.ALPN = utils.FormatAlpnArray(proxy.ALPN)
+		proxy.ALPN = alpn.FormatAlpnArray(proxy.ALPN)
 		return &proxy, nil
 	case "hysteria2":
 		var proxy Hysteria2
@@ -250,7 +250,7 @@ func ParseProxyFromClashProxy(p map[string]interface{}) (proxy Proxy, err error)
 		//if !ValidPassword(&proxy.Password) {
 		//	return nil, errors.New("Password Error")
 		//}
-		proxy.ALPN = utils.FormatAlpnArray(proxy.ALPN)
+		proxy.ALPN = alpn.FormatAlpnArray(proxy.ALPN)
 		return &proxy, nil
 	case "hysteria":
 		var proxy Hysteria

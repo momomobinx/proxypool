@@ -3,7 +3,7 @@ package proxy
 import (
 	"encoding/json"
 	"errors"
-	"github.com/asdlokj1qpi23/proxypool/pkg/utils"
+	A "github.com/asdlokj1qpi23/proxypool/pkg/alpn"
 	"net"
 	"net/url"
 	"regexp"
@@ -232,7 +232,7 @@ func ParseVlessLink(link string) (*Vless, error) {
 	}
 	if alpn != "" {
 		t.ALPN = []string{alpn}
-		t.ALPN = utils.FormatAlpnArray(t.ALPN)
+		t.ALPN = A.FormatAlpnArray(t.ALPN)
 	}
 	if patherr == nil && path != "" {
 		if hostErr == nil && host != "" {
