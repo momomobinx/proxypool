@@ -32,6 +32,7 @@ type Vmess struct {
 	TLS            bool         `yaml:"tls,omitempty" json:"tls,omitempty"`
 	SkipCertVerify bool         `yaml:"skip-cert-verify,omitempty" json:"skip-cert-verify,omitempty"`
 	WSOpts         *WSOptions   `yaml:"ws-opts,omitempty" json:"ws-opts,omitempty"`
+	ALPN           []string     `yaml:"alpn,omitempty" json:"alpn,omitempty"`
 }
 
 type WSOptions struct {
@@ -65,6 +66,7 @@ func (v *Vmess) UnmarshalJSON(data []byte) error {
 		WSOpts         WSOptions         `yaml:"ws-opts,omitempty" json:"ws-opts,omitempty"`
 		WSPath         string            `yaml:"ws-path,omitempty" json:"ws-path,omitempty"`
 		WSHeaders      map[string]string `yaml:"ws-headers,omitempty" json:"ws-headers,omitempty"`
+		ALPN           []string          `yaml:"alpn,omitempty" json:"alpn,omitempty"`
 	}{}
 
 	err := json.Unmarshal(data, &tmp)
@@ -81,6 +83,7 @@ func (v *Vmess) UnmarshalJSON(data []byte) error {
 	v.HTTPOpts = tmp.HTTPOpts
 	v.HTTP2Opts = tmp.HTTP2Opts
 	v.TLS = tmp.TLS
+	v.ALPN = tmp.ALPN
 	v.SkipCertVerify = tmp.SkipCertVerify
 	if tmp.Network == "ws" {
 		if tmp.WSOpts.Path == "" {
@@ -236,7 +239,7 @@ func ParseVmessLink(link string) (*Vmess, error) {
 
 		moreInfo, _ := url.ParseQuery(infoPayloads[1])
 		remarks := moreInfo.Get("remarks")
-
+		alpn := moreInfo.Get("alpn")
 		// Transmission protocol
 		wsHeaders := make(map[string]string)
 		h2Opt := HTTP2Options{
@@ -315,7 +318,9 @@ func ParseVmessLink(link string) (*Vmess, error) {
 				Headers: wsHeaders,
 			}
 		}
-
+		if alpn != "" {
+			v.ALPN = []string{alpn}
+		}
 		return &v, nil
 	} else {
 		// V2rayN ref: https://github.com/2dust/v2rayN/wiki/%E5%88%86%E4%BA%AB%E9%93%BE%E6%8E%A5%E6%A0%BC%E5%BC%8F%E8%AF%B4%E6%98%8E(ver-2)

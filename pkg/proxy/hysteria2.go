@@ -67,7 +67,9 @@ func (h Hysteria2) Link() string {
 			query.Set("obfs-password", url.QueryEscape(h.OBFSPassword))
 		}
 	}
-
+	if len(h.ALPN) != 0 {
+		query.Set("alpn", url.QueryEscape(h.ALPN[0]))
+	}
 	uri := url.URL{
 		Scheme:   "hysteria2",
 		User:     url.User(url.QueryEscape(h.Password)),
@@ -120,6 +122,8 @@ func ParseHysteria2Link(link string) (*Hysteria2, error) {
 	if port == 0 {
 		port = 443
 	}
+	alpn := moreInfos.Get("alpn")
+	alpn, _ = url.QueryUnescape(alpn)
 	//if !ValidPassword(password) {
 	//	return nil, errors.New("Password Error")
 	//}
@@ -147,6 +151,9 @@ func ParseHysteria2Link(link string) (*Hysteria2, error) {
 		if obfsPassworderr == nil && obfsPassword != "" {
 			t.OBFSPassword = obfsPassword
 		}
+	}
+	if alpn != "" {
+		t.ALPN = []string{alpn}
 	}
 	return t, nil
 }

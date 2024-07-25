@@ -33,6 +33,7 @@ type Vless struct {
 	RealityOpts       *RealityOpts `yaml:"reality-opts,omitempty" json:"reality-opts,omitempty"`
 	GrpcOpts          *GrpcOptions `yaml:"grpc-opts,omitempty" json:"grpc-opts,omitempty"`
 	WSOpts            *WSOptions   `yaml:"ws-opts,omitempty" json:"ws-opts,omitempty"`
+	ALPN              []string     `yaml:"alpn,omitempty" json:"alpn,omitempty"`
 }
 
 func (v Vless) String() string {
@@ -91,7 +92,9 @@ func (v Vless) Link() string {
 	}
 	if v.Network != "" {
 		query.Set("type", url.QueryEscape(v.Network))
-
+	}
+	if len(v.ALPN) != 0 {
+		query.Set("alpn", url.QueryEscape(v.ALPN[0]))
 	}
 	uri := url.URL{
 		Scheme:   "vless",
@@ -156,6 +159,9 @@ func ParseVlessLink(link string) (*Vless, error) {
 	fingerprint, fingerprinterr := url.QueryUnescape(fingerprint)
 	udp := moreInfos.Get("udp")
 	udp, udperr := url.QueryUnescape(udp)
+	alpn := moreInfos.Get("alpn")
+	alpn, _ = url.QueryUnescape(alpn)
+
 	if port == 0 {
 		port = 443
 	}
@@ -223,7 +229,9 @@ func ParseVlessLink(link string) (*Vless, error) {
 			GrpcServiceName: serviceName,
 		}
 	}
-
+	if alpn != "" {
+		t.ALPN = []string{alpn}
+	}
 	if patherr == nil && path != "" {
 		if hostErr == nil && host != "" {
 			t.ServerName = host
