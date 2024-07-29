@@ -35,6 +35,7 @@ type Vless struct {
 	GrpcOpts          *GrpcOptions `yaml:"grpc-opts,omitempty" json:"grpc-opts,omitempty"`
 	WSOpts            *WSOptions   `yaml:"ws-opts,omitempty" json:"ws-opts,omitempty"`
 	ALPN              []string     `yaml:"alpn,omitempty" json:"alpn,omitempty"`
+	PacketEncoding    string       `yaml:"packet-encoding" json:"packet-encoding"`
 }
 
 func (v Vless) String() string {
