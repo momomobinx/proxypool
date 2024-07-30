@@ -35,7 +35,8 @@ func (c *Clash) Get() proxy.ProxyList {
 	if err != nil {
 		return nil
 	}
-	re := regexp.MustCompile(`[^\x09\x0A\x0D\x20-\x7E]`)
+	//re := regexp.MustCompile(`[^\x09\x0A\x0D\x20-\x7E]`)
+	re := regexp.MustCompile(`[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]`)
 	body = re.ReplaceAll(body, []byte{})
 	body = buildClashDoc(false, body)
 
