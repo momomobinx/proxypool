@@ -76,7 +76,7 @@ func GetAllProxies() (proxies proxy.ProxyList) {
 	}
 
 	proxiesDB := make([]Proxy, 0)
-	DB.Select("link").Find(&proxiesDB)
+	DB.Select("link").Where("useable = ?", true).Find(&proxiesDB)
 
 	for _, proxyDB := range proxiesDB {
 		if proxiesDB != nil {

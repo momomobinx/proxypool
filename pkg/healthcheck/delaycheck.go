@@ -53,7 +53,7 @@ func CleanBadProxiesWithGrpool(proxies []proxy.Proxy) (cproxies []proxy.Proxy) {
 					}
 				}()
 				delay, err := testDelay(pp)
-				if err == nil && delay != 0 {
+				if err == nil && delay != 0 && delay.Seconds() < 1 {
 					m.Lock()
 					if !isIPv6Address(pp.BaseInfo().Server) {
 						cproxies = append(cproxies, pp)

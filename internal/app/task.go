@@ -192,7 +192,7 @@ func speedTestNew(proxies proxy.ProxyList) {
 		cache.IsSpeedTest = "已开启"
 		if C.Config.SpeedTimeout > 0 {
 			healthcheck.SpeedTimeout = time.Second * time.Duration(C.Config.SpeedTimeout)
-			log.Infoln("config: Speed test timeout is set to %d seconds", C.Config.SpeedTimeout)
+			log.Infoln("config: Speed test timeout is set to %d seconds", healthcheck.SpeedTimeout)
 		}
 		healthcheck.SpeedTestNew(proxies)
 	} else {
