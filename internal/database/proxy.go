@@ -95,7 +95,7 @@ func ClearOldItems() {
 	if DB == nil {
 		return
 	}
-	lastWeek := time.Now().Add(-time.Hour * 24 * 7)
+	lastWeek := time.Now().Add(-time.Hour * 1)
 	if err := DB.Where("updated_at < ? AND useable = ?", lastWeek, false).Delete(&Proxy{}); err != nil {
 		var count int64
 		DB.Model(&Proxy{}).Where("updated_at < ? AND useable = ?", lastWeek, false).Count(&count)
