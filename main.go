@@ -51,6 +51,7 @@ func main() {
 	database.InitTables()
 	// init GeoIp db reader and map between emoji's and countries
 	// return: struct geoIp (dbreader, emojimap)
+	// 测试workflow 触发
 	err = geoIp.InitGeoIpDB()
 	if err != nil {
 		os.Exit(1)
