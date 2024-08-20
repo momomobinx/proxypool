@@ -7,10 +7,10 @@ import (
 	"net"
 	"sync"
 
-	"github.com/asdlokj1qpi23/proxypool/log"
-	"github.com/asdlokj1qpi23/proxypool/pkg/proxy"
 	"github.com/ivpusic/grpool"
 	"github.com/metacubex/mihomo/adapter"
+	"github.com/momomobinx/proxypool/log"
+	"github.com/momomobinx/proxypool/pkg/proxy"
 )
 
 func RelayCheck(proxies proxy.ProxyList) {

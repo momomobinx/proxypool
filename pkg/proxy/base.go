@@ -3,8 +3,8 @@ package proxy
 import (
 	"encoding/json"
 	"errors"
-	"github.com/asdlokj1qpi23/proxypool/pkg/alpn"
-	"github.com/asdlokj1qpi23/proxypool/pkg/geoIp"
+	"github.com/momomobinx/proxypool/pkg/alpn"
+	"github.com/momomobinx/proxypool/pkg/geoIp"
 	"strings"
 	"unicode/utf8"
 )

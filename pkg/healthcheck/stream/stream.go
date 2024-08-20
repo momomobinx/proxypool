@@ -2,12 +2,12 @@ package stream
 
 import (
 	"fmt"
-	PC "github.com/asdlokj1qpi23/proxypool/config"
-	"github.com/asdlokj1qpi23/proxypool/internal/cache"
-	"github.com/asdlokj1qpi23/proxypool/pkg/proxy"
-	"github.com/asdlokj1qpi23/proxypool/pkg/utils"
 	C "github.com/metacubex/mihomo/constant"
 	"github.com/metacubex/mihomo/log"
+	PC "github.com/momomobinx/proxypool/config"
+	"github.com/momomobinx/proxypool/internal/cache"
+	"github.com/momomobinx/proxypool/pkg/proxy"
+	"github.com/momomobinx/proxypool/pkg/utils"
 	"time"
 )
 

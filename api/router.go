@@ -10,16 +10,16 @@ import (
 	"strings"
 	"time"
 
-	"github.com/asdlokj1qpi23/proxypool/log"
+	"github.com/momomobinx/proxypool/log"
 	"golang.org/x/exp/slices"
 
-	"github.com/asdlokj1qpi23/proxypool/config"
-	appcache "github.com/asdlokj1qpi23/proxypool/internal/cache"
-	"github.com/asdlokj1qpi23/proxypool/pkg/provider"
 	"github.com/gin-contrib/cache"
 	"github.com/gin-contrib/cache/persistence"
 	"github.com/gin-gonic/gin"
 	_ "github.com/heroku/x/hmetrics/onload"
+	"github.com/momomobinx/proxypool/config"
+	appcache "github.com/momomobinx/proxypool/internal/cache"
+	"github.com/momomobinx/proxypool/pkg/provider"
 )
 
 const version = "v0.7.27"

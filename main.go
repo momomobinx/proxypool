@@ -2,13 +2,13 @@ package main
 
 import (
 	"flag"
-	"github.com/asdlokj1qpi23/proxypool/api"
-	"github.com/asdlokj1qpi23/proxypool/config"
-	"github.com/asdlokj1qpi23/proxypool/internal/app"
-	"github.com/asdlokj1qpi23/proxypool/internal/cron"
-	"github.com/asdlokj1qpi23/proxypool/internal/database"
-	"github.com/asdlokj1qpi23/proxypool/log"
-	"github.com/asdlokj1qpi23/proxypool/pkg/geoIp"
+	"github.com/momomobinx/proxypool/api"
+	"github.com/momomobinx/proxypool/config"
+	"github.com/momomobinx/proxypool/internal/app"
+	"github.com/momomobinx/proxypool/internal/cron"
+	"github.com/momomobinx/proxypool/internal/database"
+	"github.com/momomobinx/proxypool/log"
+	"github.com/momomobinx/proxypool/pkg/geoIp"
 	_ "net/http/pprof"
 	"os"
 )

@@ -5,10 +5,10 @@ import (
 	"strings"
 	"sync"
 
-	"github.com/asdlokj1qpi23/proxypool/log"
-	"github.com/asdlokj1qpi23/proxypool/pkg/proxy"
+	"github.com/momomobinx/proxypool/log"
+	"github.com/momomobinx/proxypool/pkg/proxy"
 
-	"github.com/asdlokj1qpi23/proxypool/pkg/tool"
+	"github.com/momomobinx/proxypool/pkg/tool"
 )
 
 func init() {

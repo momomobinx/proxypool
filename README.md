@@ -1,6 +1,6 @@
 # Change Log
 
-(Change Log Link)[https://hub.docker.com/r/asdlokj1qpi23/proxypool]
+(Change Log Link)[https://hub.docker.com/r/momomobinx/proxypool]
 
 # Features
 * Supports multiple types: ss, ssr, vmess, trojan, hysteria2,vless
@@ -24,9 +24,9 @@
 
 * Nodes that support Disney+ will have disney_ included in their names.
 
-If you are using Clash, it is recommended to use the [Streaming Media Enhanced Rules](https://github.com/asdlokj1qpi23/subrule/blob/main/netflix_for_node.ini) for better compatibility with streaming services.
+If you are using Clash, it is recommended to use the [Streaming Media Enhanced Rules](https://github.com/momomobinx/subrule/blob/main/netflix_for_node.ini) for better compatibility with streaming services.
 
-![Stream](https://github.com/asdlokj1qpi23/proxypool/blob/master/docs/im.png?raw=true)
+![Stream](https://github.com/momomobinx/proxypool/blob/master/docs/im.png?raw=true)
 
 ## Run
 
@@ -37,7 +37,7 @@ docker run -d --restart=always \
   --name=proxypool \
   -p 12580:12580 \
   -v /path/to/config:/config \
-  asdlokj1qpi23/proxypool \
+  momomobinx/proxypool \
   -c /config/config.yaml
 ```
 ### Docker-compose
@@ -45,7 +45,7 @@ docker run -d --restart=always \
 version: '3'
 services:
   proxypool:
-    image: asdlokj1qpi23/proxypool:latest
+    image: momomobinx/proxypool:latest
     container_name: proxypool
     volumes:
       - /path/to/config:/config
