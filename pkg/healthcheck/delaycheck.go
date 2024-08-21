@@ -5,12 +5,6 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"github.com/antchfx/htmlquery"
-	"github.com/ivpusic/grpool"
-	"github.com/metacubex/mihomo/adapter"
-	C "github.com/momomobinx/proxypool/config"
-	"github.com/momomobinx/proxypool/log"
-	"github.com/momomobinx/proxypool/pkg/proxy"
 	"io"
 	"net"
 	"net/http"
@@ -18,6 +12,13 @@ import (
 	"strings"
 	"sync"
 	"time"
+
+	"github.com/antchfx/htmlquery"
+	"github.com/ivpusic/grpool"
+	"github.com/metacubex/mihomo/adapter"
+	C "github.com/momomobinx/proxypool/config"
+	"github.com/momomobinx/proxypool/log"
+	"github.com/momomobinx/proxypool/pkg/proxy"
 )
 
 func isIPv6Address(address string) bool {
@@ -53,7 +54,7 @@ func CleanBadProxiesWithGrpool(proxies []proxy.Proxy) (cproxies []proxy.Proxy) {
 					}
 				}()
 				delay, err := testDelay(pp)
-				if err == nil && delay != 0 && delay.Seconds() < 1 {
+				if err == nil && delay != 0 && delay.Seconds() < 0.5 {
 					m.Lock()
 					if !isIPv6Address(pp.BaseInfo().Server) {
 						cproxies = append(cproxies, pp)
