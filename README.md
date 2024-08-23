@@ -30,7 +30,7 @@ If you are using Clash, it is recommended to use the [Streaming Media Enhanced R
 
 ## Run
 
-### Docker
+### Docker （无法构建）
 
 ```shell
 docker run -d --restart=always \
