@@ -26,7 +26,7 @@ database_url: ""
 #==== Interval between each crawling ====#
 crawl-interval: 360           # v0.5.x default 60 (minutes)
 #crontime:                  # v0.4.x default 60 (minutes). Deprecated in the newest version
-healthcheck-timeout: 5        # default 5 (seconds)
+healthcheck-timeout: 1        # default 5 (seconds)
 healthcheck-connection: 50 # default 500. The number of health check connections simultaneously
 
 #==== Speed test ====#
