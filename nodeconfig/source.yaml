@@ -13,3 +13,28 @@
 - type: webfuzzclashnode
   options:
     url: https://www.freeclashnode.com/free-node/
+- type: clash
+  options:
+    url: https://proxypool1999.banyunxiaoxi.icu/clash/proxies?nc=CN,IR&speed=8
+
+- type: clash
+  options:
+    url: https://proxypool.link/clash/proxies?nc=CN,IR&filter=nr,np,nrp
+
+- type: clash
+  options:
+    url: https://pp.dcd.one/clash/proxies?nc=CN,IR&filter=nr,np,nrp
+# clash格式订阅链接
+- type: clash
+  options:
+    url: https://raw.githubusercontent.com/hkaa0/permalink/main/proxy/clash.yaml
+- type: clash
+  options:
+    url: https://raw.githubusercontent.com/mahdibland/V2RayAggregator/master/Eternity.yml
+- type: clash
+  options:
+    url: https://clashe.eu.org/clash/proxies?nc=CN,IR&filter=nr,np,nrp
+
+- type: clash
+  options:
+    url: https://raw.githubusercontent.com/yebekhe/TelegramV2rayCollector/main/sub/base64/mix
