@@ -54,7 +54,8 @@ func CleanBadProxiesWithGrpool(proxies []proxy.Proxy) (cproxies []proxy.Proxy) {
 					}
 				}()
 				delay, err := testDelay(pp)
-				if err == nil && delay != 0 && delay.Seconds() < 0.5 {
+				delayCN, errCN := testDelayCN(pp)
+				if err == nil && delay != 0 && delay.Seconds() < 0.5 && errCN == nil && delayCN != 0 && delayCN.Seconds() < 0.5 {
 					m.Lock()
 					if !isIPv6Address(pp.BaseInfo().Server) {
 						cproxies = append(cproxies, pp)
@@ -141,6 +142,60 @@ func testDelay(p proxy.Proxy) (delay time.Duration, err error) {
 	}
 }
 
+func testDelayCN(p proxy.Proxy) (delay time.Duration, err error) {
+	pmap := make(map[string]interface{})
+	err = json.Unmarshal([]byte(p.String()), &pmap)
+	if err != nil {
+		return
+	}
+	pmap["port"] = int(pmap["port"].(float64))
+	if p.TypeName() == "vmess" {
+		pmap["alterId"] = int(pmap["alterId"].(float64))
+	}
+
+	if proxy.GoodNodeThatClashUnsupported(p) {
+		host := pmap["server"].(string)
+		port := fmt.Sprint(pmap["port"].(int))
+		if _, interval, err := netConnectivity(host, port); err == nil {
+			return interval, nil
+		} else {
+			return 0, err
+		}
+	}
+
+	clashProxy, err := adapter.ParseProxy(pmap)
+	if err != nil {
+		fmt.Println(err.Error())
+		return 0, err
+	}
+
+	respC := make(chan struct {
+		time.Duration
+		error
+	})
+	defer close(respC)
+	go func() {
+		sTime := time.Now()
+		testurl := "http://connect.rom.miui.com/generate_204"
+		if len(C.Config.TestUrl) > 0 {
+			testurl = C.Config.TestUrl
+		}
+		err = HTTPHeadViaProxy(clashProxy, testurl)
+		respC <- struct {
+			time.Duration
+			error
+		}{time.Since(sTime), err}
+	}()
+
+	pair, ok := <-respC
+
+	if ok {
+		return pair.Duration, pair.error
+	} else {
+		return 0, context.DeadlineExceeded
+	}
+}
+
 func netConnectivity(host string, port string) (string, time.Duration, error) {
 	result := ""
 	timeout := time.Second * 3
@@ -159,7 +214,8 @@ func CleanBadProxies(proxies []proxy.Proxy) (cproxies []proxy.Proxy) {
 	cproxies = make(proxy.ProxyList, 0, 500)
 	for _, p := range proxies {
 		delay, err := testDelay(p)
-		if err == nil && delay != 0 {
+		delayCN, errCN := testDelayCN(p)
+		if err == nil && delay != 0 && errCN == nil && delayCN != 0 {
 			cproxies = append(cproxies, p)
 			if ps, ok := ProxyStats.Find(p); ok {
 				ps.UpdatePSDelay(delay)

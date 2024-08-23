@@ -2,11 +2,13 @@ package app
 
 import (
 	"fmt"
-	"github.com/momomobinx/proxypool/pkg/geoIp"
-	"github.com/momomobinx/proxypool/pkg/healthcheck/stream"
 	"os"
+	"runtime"
 	"sync"
 	"time"
+
+	"github.com/momomobinx/proxypool/pkg/geoIp"
+	"github.com/momomobinx/proxypool/pkg/healthcheck/stream"
 
 	C "github.com/momomobinx/proxypool/config"
 	"github.com/momomobinx/proxypool/internal/cache"
@@ -184,6 +186,7 @@ func CrawlGo() {
 			Proxies: &proxies,
 		},
 	}.Provide())
+	runtime.GC()
 }
 
 // Speed test for new proxies
