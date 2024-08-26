@@ -71,6 +71,12 @@ freebsd-386:
 freebsd-amd64:
 	GOARCH=amd64 GOOS=freebsd $(GOBUILD) -o $(BINDIR)/$(NAME)-$@
 
+windows-amd64:
+	set GOARCH=amd64
+	set GOOS=windows
+	set CGO_ENABLED=0 
+	go build -trimpath -ldflags '-w -s' -o $(BINDIR)/$(NAME)-$@
+
 gz_releases=$(addsuffix .gz, $(PLATFORM_LIST))
 
 $(gz_releases): %.gz : %
