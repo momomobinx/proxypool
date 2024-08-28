@@ -1,29 +1,27 @@
 - type: webfuzzsub
   options:
-    url: https://github.com/snakem982/proxypool/blob/main/source/nodelist.txt
-- type: webfuzzsub
-  options:
-    url: https://raw.githubusercontent.com/Leon406/jsdelivr/daf795e2da5ddf59b215bf2f4c3b4a2989a864c6/subscribe/subpool
-- type: webfuzzsub
-  options:
-    url: https://raw.githubusercontent.com/asdlokj1qpi23/subrule/main/list.txt
-- type: webfuzzsub
-  options:
-    url: https://raw.githubusercontent.com/Leon406/jsdelivr/daf795e2da5ddf59b215bf2f4c3b4a2989a864c6/subscribe/sub.txt
-- type: webfuzzclashnode
-  options:
-    url: https://www.freeclashnode.com/free-node/
+    url: https://raw.githubusercontent.com/snakem982/proxypool/main/source/proxies.txt
+# - type: webfuzzsub
+#   options:
+#     url: https://raw.githubusercontent.com/Leon406/jsdelivr/master/subscribe/subpool5
+
+# - type: webfuzzsub
+#   options:
+#     url: https://raw.githubusercontent.com/Leon406/jsdelivr/master/subscribe/sub.txt
+# - type: webfuzzclashnode
+#   options:
+#     url: https://www.freeclashnode.com/free-node/
 - type: clash
   options:
-    url: https://proxypool1999.banyunxiaoxi.icu/clash/proxies?nc=CN,IR&speed=8
+    url: https://proxypool1999.banyunxiaoxi.icu/clash/proxies?nc=CN,IR&filter=nrp&speed=8
 
 - type: clash
   options:
-    url: https://proxypool.link/clash/proxies?nc=CN,IR&filter=nr,np,nrp
+    url: https://proxypool.link/clash/proxies?nc=CN,IR&filter=nrp
 
 - type: clash
   options:
-    url: https://pp.dcd.one/clash/proxies?nc=CN,IR&filter=nr,np,nrp
+    url: https://pp.dcd.one/clash/proxies?nc=CN,IR&filter=nrp
 # clash格式订阅链接
 - type: clash
   options:
@@ -33,7 +31,7 @@
     url: https://raw.githubusercontent.com/mahdibland/V2RayAggregator/master/Eternity.yml
 - type: clash
   options:
-    url: https://clashe.eu.org/clash/proxies?nc=CN,IR&filter=nr,np,nrp
+    url: https://clashe.eu.org/clash/proxies?nc=CN,IR&filter=nrp
 
 - type: clash
   options:
