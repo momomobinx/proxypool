@@ -1,5 +1,6 @@
 name: Publish Docker Image
 on:
+  workflow_dispatch:  # 添加手动触发
   push:
     branches: [ master ]
     tags:

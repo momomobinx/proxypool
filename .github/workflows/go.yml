@@ -1,5 +1,6 @@
 name: Go
 on:
+  workflow_dispatch:  # 添加手动触发
   push:
     branches: [ master ]
   pull_request:
