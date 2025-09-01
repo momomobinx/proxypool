@@ -176,7 +176,8 @@ func testDelayCN(p proxy.Proxy) (delay time.Duration, err error) {
 	defer close(respC)
 	go func() {
 		sTime := time.Now()
-		testurl := "http://connect.rom.miui.com/generate_204"
+		testurl := "http://www.v2ex.com/generate_204"
+		//testurl := "http://connect.rom.miui.com/generate_204"
 		if len(C.Config.TestUrl) > 0 {
 			testurl = C.Config.TestUrl
 		}
