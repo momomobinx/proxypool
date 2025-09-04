@@ -55,7 +55,7 @@ func CleanBadProxiesWithGrpool(proxies []proxy.Proxy) (cproxies []proxy.Proxy) {
 				}()
 				delay, err := testDelay(pp)
 				delayCN, errCN := testDelayCN(pp)
-				if err == nil && delay != 0 && delay.Seconds() < 0.5 && errCN == nil && delayCN != 0 && delayCN.Seconds() < 0.5 {
+				if (err == nil && delay != 0 && delay.Seconds() < 1) || (errCN == nil && delayCN != 0 && delayCN.Seconds() < 1) {
 					m.Lock()
 					if !isIPv6Address(pp.BaseInfo().Server) {
 						cproxies = append(cproxies, pp)
@@ -176,8 +176,8 @@ func testDelayCN(p proxy.Proxy) (delay time.Duration, err error) {
 	defer close(respC)
 	go func() {
 		sTime := time.Now()
-		testurl := "http://www.v2ex.com/generate_204"
-		//testurl := "http://connect.rom.miui.com/generate_204"
+		//testurl := "http://www.v2ex.com/generate_204"
+		testurl := "http://connect.rom.miui.com/generate_204"
 		if len(C.Config.TestUrl) > 0 {
 			testurl = C.Config.TestUrl
 		}
