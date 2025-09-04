@@ -3,10 +3,11 @@ package proxy
 import (
 	"encoding/json"
 	"errors"
-	"github.com/momomobinx/proxypool/pkg/alpn"
-	"github.com/momomobinx/proxypool/pkg/geoIp"
 	"strings"
 	"unicode/utf8"
+
+	"github.com/momomobinx/proxypool/pkg/alpn"
+	"github.com/momomobinx/proxypool/pkg/geoIp"
 )
 
 /* Base implements interface Proxy. It's the basic proxy struct. Vmess etc extends Base*/
